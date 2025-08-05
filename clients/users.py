@@ -40,7 +40,7 @@ class UsersClient(APIClient):
 
         :return: Ответ от сервера в виде объекта httpx.Response
         """
-        return self.get_request("/me")
+        return self.get_request(f"{self.url}/me")
 
     def get_by_id_request(self, user_id: str) -> Response | RequestError:
         """
@@ -50,7 +50,7 @@ class UsersClient(APIClient):
         :return: Ответ от сервера в виде объекта httpx.Response
         """
 
-        return self.get_request(f"/{user_id}")
+        return self.get_request(f"{self.url}/{user_id}")
 
     def delete_by_id_request(self, user_id: str) -> None:
         """
@@ -59,7 +59,7 @@ class UsersClient(APIClient):
         :param user_id: Идентификатор пользователя.
         :return: Ответ от сервера в виде объекта httpx.Response
         """
-        return self.delete_request(f"/{user_id}").json()
+        return self.delete_request(f"{self.url}/{user_id}").json()
 
     def create_new_user(self, payload: CreateUserRequestSchema) -> CreateUserResponseSchema:
         response = self.create_request(payload)
