@@ -1,30 +1,8 @@
-from typing import TypedDict
 from httpx import Client, Response
 
 from api_client import APIClient
 from clients.public_client_builder import build_public_client
-
-
-class Token(TypedDict):
-    """
-    Описание структуры аутентификационных токенов.
-    """
-    tokenType: str
-    accessToken: str
-    refreshToken: str
-
-
-class LoginPayloadDict(TypedDict):
-    email: str
-    password: str
-
-
-class LoginResponseDict(TypedDict):
-    token: Token
-
-
-class RefreshPayloadDict(TypedDict):
-    refreshToken: str
+from schemas.authentication import RefreshRequestSchema, LoginRequestSchema, LoginResponseSchema
 
 
 class AuthenticationClient(APIClient):
@@ -36,25 +14,25 @@ class AuthenticationClient(APIClient):
         super().__init__(client)
         self.url = "/api/v1/authentication"
 
-    def refresh_request(self, payload: RefreshPayloadDict) -> Response:
+    def refresh_request(self, payload: RefreshRequestSchema) -> Response:
         """
         Метод обновляет токен авторизации.
 
         :param payload: Словарь с refreshToken.
         :return: Ответ от сервера в виде объекта httpx.Response
         """
-        return self.post_request(f"{self.url}/refresh", json=payload)
+        return self.post_request(f"{self.url}/refresh", json=payload.model_dump(by_alias=True))
 
-    def login_request(self, payload: LoginPayloadDict) -> Response:
+    def login_request(self, payload: LoginRequestSchema) -> Response:
         """
         Метод выполняет аутентификацию пользователя.
 
         :param payload: Словарь с email и password.
         :return: Ответ от сервера в виде объекта httpx.Response
         """
-        return self.post_request(f"{self.url}/login", json=payload)
+        return self.post_request(f"{self.url}/login", json=payload.model_dump(by_alias=True))
 
-    def get_token(self, payload: LoginPayloadDict) -> LoginResponseDict:
+    def get_token(self, payload: LoginRequestSchema) -> LoginResponseSchema:
         """
         Метод выполняет аутентификацию пользователя и возвращает его токен
 
@@ -62,7 +40,7 @@ class AuthenticationClient(APIClient):
         :return: Ответ от сервера в виде объекта httpx.Response
         """
         response = self.login_request(payload)
-        return response.json()
+        return LoginResponseSchema.model_validate_json(response.text)
 
 
 def get_authentication_client() -> AuthenticationClient:

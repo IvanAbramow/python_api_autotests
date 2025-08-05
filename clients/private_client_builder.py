@@ -1,15 +1,10 @@
-from typing import TypedDict
 from httpx import Client
 
-from clients.authentication import get_authentication_client, LoginPayloadDict
+from clients.authentication import get_authentication_client
+from schemas.authentication import LoginRequestSchema
 
 
-class AuthUserDict(TypedDict):  # Структура данных пользователя для авторизации
-    email: str
-    password: str
-
-
-def build_private_client(user: AuthUserDict) -> Client:
+def build_private_client(user: LoginRequestSchema) -> Client:
     """
     Функция создаёт экземпляр httpx.Client с аутентификацией пользователя.
 
@@ -19,11 +14,11 @@ def build_private_client(user: AuthUserDict) -> Client:
     # Инициализируем AuthenticationClient для аутентификации
     authentication_client = get_authentication_client()
 
-    payload = LoginPayloadDict(email=user['email'], password=user['password'])
+    payload = LoginRequestSchema(email=user.email, password=user.password)
     login_response = authentication_client.get_token(payload)
 
     return Client(
         timeout=90,
         base_url="http://localhost:8000",
-        headers={"Authorization": f"Bearer {login_response['token']['accessToken']}"}
+        headers={"Authorization": f"Bearer {login_response.token.access_token}"}
     )

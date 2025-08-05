@@ -1,6 +1,5 @@
 from typing import TypedDict
 
-from faker import Faker
 from httpx import Client, Response
 
 from api_client import APIClient
