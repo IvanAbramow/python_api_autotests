@@ -4,7 +4,7 @@ from httpx import Client, Response
 
 from api_client import APIClient
 from clients.files import File
-from clients.private_client_builder import AuthUserDict, build_private_client
+from clients.private_client_builder import build_private_client
 from clients.users import User
 
 

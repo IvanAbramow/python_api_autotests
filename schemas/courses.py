@@ -3,6 +3,8 @@ import uuid
 from pydantic import BaseModel, Field, EmailStr
 
 from schemas.file import FileSchema
+from schemas.user import UserSchema
+
 
 class CourseSchema(BaseModel):
     id: str = Field(default_factory=lambda: str(uuid.uuid4()))

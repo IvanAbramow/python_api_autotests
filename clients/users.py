@@ -1,55 +1,10 @@
-from typing import TypedDict
-
-from httpx import Client, Response
+from httpx import Client, Response, RequestError
 
 from api_client import APIClient
-from clients.private_client_builder import build_private_client, AuthUserDict
+from clients.private_client_builder import build_private_client
 from clients.public_client_builder import build_public_client
-
-
-class User(TypedDict):
-    """
-    Описание структуры пользователя.
-    """
-    id: str
-    email: str
-    lastName: str
-    firstName: str
-    middleName: str
-
-
-class CreateUserPayloadDict(TypedDict):
-    """
-    Описание структуры запроса на создание пользователя.
-    """
-    email: str
-    password: str
-    lastName: str
-    firstName: str
-    middleName: str
-
-
-class CreateUserResponseDict(TypedDict):
-    """
-    Описание структуры ответа создания пользователя.
-    """
-    user: User
-
-class GetUserResponseDict(TypedDict):
-    """
-    Описание структуры ответа получения пользователя.
-    """
-    user: User
-
-class UpdateUserDict(TypedDict):
-    """
-    Описание структуры запроса на обновление пользователя.
-    """
-
-    email: str | None
-    lastName: str | None
-    firstName: str | None
-    middleName: str | None
+from schemas.authentication import LoginRequestSchema
+from schemas.user import CreateUserRequestSchema, UpdateUserRequestSchema
 
 
 class UsersClient(APIClient):
@@ -61,33 +16,33 @@ class UsersClient(APIClient):
         super().__init__(client)
         self.url = "/api/v1/users"
 
-    def create_request(self, payload: CreateUserPayloadDict) -> CreateUserResponseDict:
+    def create_request(self, payload: CreateUserRequestSchema) -> Response | RequestError:
         """
         Метод создает пользователя.
 
         :param payload: Словарь с email, password, lastName, firstName, middleName.
         :return: Ответ от сервера в виде объекта httpx.Response
         """
-        return self.post_request(self.url, json=payload).json()
+        return self.post_request(self.url, json=payload.model_dump(by_alias=True))
 
-    def update_request(self, payload: UpdateUserDict) -> GetUserResponseDict:
+    def update_request(self, payload: UpdateUserRequestSchema) -> Response | RequestError:
         """
         Метод обновления пользователя.
 
         :param payload: Словарь с email, lastName, firstName, middleName.
         :return: Ответ от сервера в виде объекта httpx.Response
         """
-        return self.patch_request(self.url, json=payload).json()
+        return self.patch_request(self.url, json=payload.model_dump(by_alias=True))
 
-    def get_me_request(self) -> GetUserResponseDict:
+    def get_me_request(self) -> Response | RequestError:
         """
         Метод получения пользователя.
 
         :return: Ответ от сервера в виде объекта httpx.Response
         """
-        return self.get_request("/me").json()
+        return self.get_request("/me")
 
-    def get_by_id_request(self, user_id: str) -> GetUserResponseDict:
+    def get_by_id_request(self, user_id: str) -> Response | RequestError:
         """
         Метод получения пользователя по идентификатору.
 
@@ -95,7 +50,7 @@ class UsersClient(APIClient):
         :return: Ответ от сервера в виде объекта httpx.Response
         """
 
-        return self.get_request(f"/{user_id}").json()
+        return self.get_request(f"/{user_id}")
 
     def delete_by_id_request(self, user_id: str) -> None:
         """
@@ -116,7 +71,7 @@ def get_public_users_client() -> UsersClient:
     return UsersClient(client=build_public_client())
 
 
-def get_private_users_client(user: AuthUserDict) -> UsersClient:
+def get_private_users_client(user: LoginRequestSchema) -> UsersClient:
     """
     Функция создаёт экземпляр UsersClient с уже настроенным HTTP-клиентом.
 

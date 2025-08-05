@@ -3,7 +3,7 @@ from typing import TypedDict
 from httpx import Client, Response
 
 from api_client import APIClient
-from clients.private_client_builder import AuthUserDict, build_private_client
+from clients.private_client_builder import build_private_client
 
 
 class File(TypedDict):

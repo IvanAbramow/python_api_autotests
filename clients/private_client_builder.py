@@ -11,7 +11,6 @@ def build_private_client(user: LoginRequestSchema) -> Client:
     :param user: Объект AuthenticationUserSchema с email и паролем пользователя.
     :return: Готовый к использованию объект httpx.Client с установленным заголовком Authorization.
     """
-    # Инициализируем AuthenticationClient для аутентификации
     authentication_client = get_authentication_client()
 
     payload = LoginRequestSchema(email=user.email, password=user.password)
