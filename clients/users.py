@@ -4,7 +4,7 @@ from api_client import APIClient
 from clients.private_client_builder import build_private_client
 from clients.public_client_builder import build_public_client
 from schemas.authentication import LoginRequestSchema
-from schemas.user import CreateUserRequestSchema, UpdateUserRequestSchema
+from schemas.user import CreateUserRequestSchema, UpdateUserRequestSchema, CreateUserResponseSchema
 
 
 class UsersClient(APIClient):
@@ -60,6 +60,10 @@ class UsersClient(APIClient):
         :return: Ответ от сервера в виде объекта httpx.Response
         """
         return self.delete_request(f"/{user_id}").json()
+
+    def create_new_user(self, payload: CreateUserRequestSchema) -> CreateUserResponseSchema:
+        response = self.create_request(payload)
+        return CreateUserResponseSchema.model_validate_json(response.text)
 
 
 def get_public_users_client() -> UsersClient:

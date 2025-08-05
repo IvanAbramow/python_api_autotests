@@ -1,6 +1,6 @@
 import uuid
 
-from pydantic import BaseModel, Field, EmailStr
+from pydantic import BaseModel, Field, EmailStr, ConfigDict
 
 from schemas.file import FileSchema
 from schemas.user import UserSchema
@@ -15,6 +15,8 @@ class CreateCourseRequestSchema(BaseModel):
     """
     Описание структуры курса.
     """
+    model_config = ConfigDict(populate_by_name=True)
+
     id: str = Field(default_factory=lambda: str(uuid.uuid4()))
     title: str = "Playwright"
     max_score: int = Field(alias="maxScore", default=1000)
@@ -32,6 +34,8 @@ class UpdateCourseRequestSchema(BaseModel):
     """
     Описание структуры запроса на обновление курса.
     """
+    model_config = ConfigDict(populate_by_name=True)
+
     title: str | None
     max_score: int | None = Field(alias="maxScore")
     min_score: int | None = Field(alias="minScore")
