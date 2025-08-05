@@ -4,6 +4,8 @@ from pydantic import BaseModel, Field, EmailStr, ConfigDict
 
 from schemas.file import FileSchema
 from schemas.user import UserSchema
+from tools.fakers import fake
+
 
 class GetUserCoursesRequestSchema(BaseModel):
     """
@@ -17,14 +19,14 @@ class CreateCourseRequestSchema(BaseModel):
     """
     model_config = ConfigDict(populate_by_name=True)
 
-    id: str = Field(default_factory=lambda: str(uuid.uuid4()))
+    id: str = Field(default_factory=fake.generate_uuid())
     title: str = "Playwright"
-    max_score: int = Field(alias="maxScore", default=1000)
-    min_score: int = Field(alias="minScore", default=100)
-    description: str = "Playwright course"
-    preview_file: FileSchema = Field(alias="previewFile")
-    estimated_time: str = Field(alias="estimatedTime", default="2 weeks")
-    created_by_user: UserSchema = Field(alias="createdByUser")
+    max_score: int = Field(alias="maxScore", default_factory=fake.generate_random_integer(50, 100))
+    min_score: int = Field(alias="minScore", default_factory=fake.generate_random_integer(10, 30))
+    description: str = Field(default_factory=fake.random_text())
+    preview_file_id: FileSchema = Field(alias="previewFileId")
+    estimated_time: str = Field(alias="estimatedTime", default=f"{fake.generate_random_integer(1, 5)} weeks")
+    created_by_user_id: str = Field(alias="createdByUserId")
 
 class CreateCourseResponseSchema(BaseModel):
     course: CreateCourseRequestSchema
