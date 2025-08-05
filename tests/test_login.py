@@ -5,6 +5,7 @@ import pytest
 from clients.authentication import AuthenticationClient
 from fixtures.users import UserFixture
 from schemas.authentication import LoginRequestSchema, LoginResponseSchema
+from tools.asserts.authentication import assert_login_response
 from tools.asserts.base import assert_status_code
 from tools.asserts.schema import validate_json_schema
 
@@ -20,5 +21,6 @@ def test_login(function_user: UserFixture, authentication_client: Authentication
     response_data = LoginResponseSchema.model_validate_json(response.text)
 
     assert_status_code(response.status_code, HTTPStatus.OK)
+    assert_login_response(response_data)
 
     validate_json_schema(response.json(), response_data.model_json_schema())
