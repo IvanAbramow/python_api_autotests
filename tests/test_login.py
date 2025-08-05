@@ -3,8 +3,8 @@ from http import HTTPStatus
 import pytest
 
 from clients.authentication import AuthenticationClient
+from fixtures.users import UserFixture
 from schemas.authentication import LoginRequestSchema, LoginResponseSchema
-from tests.conftest import UserFixture
 from tools.asserts.base import assert_status_code
 from tools.asserts.schema import validate_json_schema
 
