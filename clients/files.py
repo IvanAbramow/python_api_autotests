@@ -1,35 +1,9 @@
-from typing import TypedDict
-
 from httpx import Client, Response
 
 from api_client import APIClient
 from clients.private_client_builder import build_private_client
-
-
-class File(TypedDict):
-    """
-    Описание структуры файла.
-    """
-    id: str
-    url: str
-    filename: str
-    directory: str
-
-
-class UploadFileDict(TypedDict):
-    """
-    Описание структуры запроса на создание файла.
-    """
-    filename: str
-    directory: str
-    upload_file: str
-
-
-class UploadFileResponseDict(TypedDict):
-    """
-    Описание структуры ответа создания файла.
-    """
-    file: File
+from schemas.authentication import LoginRequestSchema
+from schemas.file import UploadFileRequestSchema, UploadFileResponseSchema
 
 
 class FilesClient(APIClient):
@@ -41,7 +15,7 @@ class FilesClient(APIClient):
         super().__init__(client)
         self.url = '/api/v1/files'
 
-    def upload_request(self, payload: UploadFileDict) -> Response:
+    def upload_request(self, payload: UploadFileRequestSchema) -> Response:
         """
         Метод загрузки файла.
 
@@ -52,7 +26,7 @@ class FilesClient(APIClient):
             "upload_file": open(payload["upload_file"], 'rb')
         }
 
-        return self.post_request(self.url, data=payload, files=files)
+        return self.post_request(self.url, data=payload.model_dump(), files=files)
 
     def get_by_id(self, file_id: str) -> Response:
         """
@@ -74,11 +48,12 @@ class FilesClient(APIClient):
 
         return self.delete_request(f"{self.url}/{file_id}")
 
-    def upload_file(self, payload: UploadFileDict) -> UploadFileResponseDict:
-        return self.upload_request(payload).json()
+    def upload_file(self, payload: UploadFileRequestSchema) -> UploadFileResponseSchema:
+        response = self.upload_request(payload)
+        return UploadFileResponseSchema.model_validate_json(response.text)
 
 
-def get_files_client(user: AuthUserDict) -> FilesClient:
+def get_files_client(user: LoginRequestSchema) -> FilesClient:
     """
     Функция создаёт экземпляр FilesClient с уже настроенным HTTP-клиентом.
 

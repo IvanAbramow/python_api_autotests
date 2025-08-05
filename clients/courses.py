@@ -1,60 +1,10 @@
-from typing import TypedDict
-
 from httpx import Client, Response
 
 from api_client import APIClient
-from clients.files import File
 from clients.private_client_builder import build_private_client
-from clients.users import User
-
-
-class Course(TypedDict):
-    """
-    Описание структуры курса.
-    """
-    id: str
-    title: str
-    maxScore: int
-    minScore: int
-    description: str
-    previewFile: File
-    estimatedTime: str
-    createdByUser: User
-
-class GetUserCoursesDict(TypedDict):
-    """
-    Описание структуры запроса на получение списка курсов пользователя.
-    """
-    userId: str
-
-
-class CreateCourseDict(TypedDict):
-    """
-    Описание структуры запроса на создание курса.
-    """
-    title: str
-    maxScore: int
-    minScore: int
-    description: str
-    estimatedTime: str
-    previewFileId: str
-    createdByUserId: str
-
-class CreateCourseResponseDict(TypedDict):
-    """
-    Описание структуры ответа создания курса.
-    """
-    course: Course
-
-class UpdateCourseDict(TypedDict):
-    """
-    Описание структуры запроса на обновление курса.
-    """
-    title: str | None
-    maxScore: int | None
-    minScore: int | None
-    description: str | None
-    estimatedTime: str | None
+from schemas.authentication import LoginRequestSchema
+from schemas.courses import GetUserCoursesRequestSchema, CreateCourseRequestSchema, UpdateCourseRequestSchema, \
+    CreateCourseResponseSchema
 
 
 class CoursesClient(APIClient):
@@ -66,14 +16,14 @@ class CoursesClient(APIClient):
         super().__init__(client)
         self.url = '/api/v1/courses'
 
-    def get_user_courses_request(self, query: GetUserCoursesDict) -> Response:
+    def get_user_courses_request(self, query: GetUserCoursesRequestSchema) -> Response:
         """
         Метод получения списка курсов.
 
         :param query: Словарь с userId.
         :return: Ответ от сервера в виде объекта httpx.Response
         """
-        return self.get_request(self.url, params=query)
+        return self.get_request(self.url, params=query.model_dump(by_alias=True))
 
     def get_by_id_request(self, course_id: str) -> Response:
         """
@@ -84,7 +34,7 @@ class CoursesClient(APIClient):
         """
         return self.get_request(f"{self.url}/{course_id}")
 
-    def create_request(self, request: CreateCourseDict) -> Response:
+    def create_request(self, request: CreateCourseRequestSchema) -> Response:
         """
         Метод создания курса.
 
@@ -92,9 +42,9 @@ class CoursesClient(APIClient):
         previewFileId, createdByUserId.
         :return: Ответ от сервера в виде объекта httpx.Response
         """
-        return self.post_request(self.url, json=request)
+        return self.post_request(self.url, json=request.model_dump(by_alias=True))
 
-    def update_request(self, course_id: str, request: UpdateCourseDict) -> Response:
+    def update_request(self, course_id: str, request: UpdateCourseRequestSchema) -> Response:
         """
         Метод обновления курса.
 
@@ -102,7 +52,7 @@ class CoursesClient(APIClient):
         :param request: Словарь с title, maxScore, minScore, description, estimatedTime.
         :return: Ответ от сервера в виде объекта httpx.Response
         """
-        return self.patch_request(f"{self.url}/{course_id}", json=request)
+        return self.patch_request(f"{self.url}/{course_id}", json=request.model_dump(by_alias=True))
 
     def delete_request(self, course_id: str) -> Response:
         """
@@ -113,11 +63,12 @@ class CoursesClient(APIClient):
         """
         return self.delete_request(f"{self.url}/{course_id}")
 
-    def create_course(self, request: CreateCourseDict) -> CreateCourseResponseDict:
+    def create_course(self, request: CreateCourseRequestSchema) -> CreateCourseResponseSchema:
         response = self.create_request(request)
-        return response.json()
+        return CreateCourseResponseSchema.model_validate_json(response.text)
 
-def get_courses_client(user: AuthUserDict) -> CoursesClient:
+
+def get_courses_client(user: LoginRequestSchema) -> CoursesClient:
     """
     Функция создаёт экземпляр CoursesClient с уже настроенным HTTP-клиентом.
 
