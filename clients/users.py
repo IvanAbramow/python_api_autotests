@@ -3,7 +3,6 @@ from httpx import Client, Response, RequestError
 from api_client import APIClient
 from clients.private_client_builder import build_private_client, AuthenticationUserSchema
 from clients.public_client_builder import build_public_client
-from schemas.authentication import LoginRequestSchema
 from schemas.user import CreateUserRequestSchema, UpdateUserRequestSchema, CreateUserResponseSchema
 
 

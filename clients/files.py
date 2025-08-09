@@ -1,7 +1,7 @@
 from httpx import Client, Response
 
 from api_client import APIClient
-from clients.private_client_builder import build_private_client
+from clients.private_client_builder import build_private_client, AuthenticationUserSchema
 from schemas.authentication import LoginRequestSchema
 from schemas.file import UploadFileRequestSchema, UploadFileResponseSchema
 
@@ -53,7 +53,7 @@ class FilesClient(APIClient):
         return UploadFileResponseSchema.model_validate_json(response.text)
 
 
-def get_files_client(user: LoginRequestSchema) -> FilesClient:
+def get_files_client(user: AuthenticationUserSchema) -> FilesClient:
     """
     Функция создаёт экземпляр FilesClient с уже настроенным HTTP-клиентом.
 
