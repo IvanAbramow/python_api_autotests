@@ -1,9 +1,6 @@
-import uuid
-
-from pydantic import BaseModel, Field, EmailStr, ConfigDict
+from pydantic import BaseModel, Field, ConfigDict
 
 from schemas.file import FileSchema
-from schemas.user import UserSchema
 from tools.fakers import fake
 
 
@@ -24,7 +21,7 @@ class CreateCourseRequestSchema(BaseModel):
     max_score: int = Field(alias="maxScore", default_factory=fake.generate_random_integer(50, 100))
     min_score: int = Field(alias="minScore", default_factory=fake.generate_random_integer(10, 30))
     description: str = Field(default_factory=fake.random_text())
-    preview_file_id: FileSchema = Field(alias="previewFileId")
+    preview_file_id: str = Field(alias="previewFileId")
     estimated_time: str = Field(alias="estimatedTime", default=f"{fake.generate_random_integer(1, 5)} weeks")
     created_by_user_id: str = Field(alias="createdByUserId")
 
