@@ -1,7 +1,7 @@
 from httpx import Client, Response, RequestError
 
 from api_client import APIClient
-from clients.private_client_builder import build_private_client
+from clients.private_client_builder import build_private_client, AuthenticationUserSchema
 from clients.public_client_builder import build_public_client
 from schemas.authentication import LoginRequestSchema
 from schemas.user import CreateUserRequestSchema, UpdateUserRequestSchema, CreateUserResponseSchema
@@ -75,7 +75,7 @@ def get_public_users_client() -> UsersClient:
     return UsersClient(client=build_public_client())
 
 
-def get_private_users_client(user: LoginRequestSchema) -> UsersClient:
+def get_private_users_client(user: AuthenticationUserSchema) -> UsersClient:
     """
     Функция создаёт экземпляр UsersClient с уже настроенным HTTP-клиентом.
 
