@@ -27,7 +27,7 @@ class ExercisesClient(APIClient):
         """
         Метод получения задания по идентификатору.
 
-        :param user_id: Идентификатор задания.
+        :param exercise_id: Идентификатор задания.
         :return: Ответ от сервера в виде объекта httpx.Response
         """
 

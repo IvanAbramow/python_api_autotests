@@ -34,4 +34,4 @@ class GetExerciseByIdResponseSchema(BaseModel):
     exercise: CreateExerciseRequestSchema
 
 class GetExercisesResponseSchema(BaseModel):
-    exercises: [CreateExerciseRequestSchema]
+    exercises: CreateExerciseRequestSchema

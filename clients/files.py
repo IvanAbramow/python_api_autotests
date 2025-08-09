@@ -1,8 +1,8 @@
 from httpx import Client, Response
+from pathlib import Path
 
 from api_client import APIClient
 from clients.private_client_builder import build_private_client, AuthenticationUserSchema
-from schemas.authentication import LoginRequestSchema
 from schemas.file import UploadFileRequestSchema, UploadFileResponseSchema
 
 
@@ -22,8 +22,13 @@ class FilesClient(APIClient):
         :param payload: Словарь с filename, directory, upload_file.
         :return: Ответ от сервера в виде объекта httpx.Response
         """
+
+        script_dir = Path(__file__).parent
+
+        file_path = script_dir / 'data' / 'image.png'
+
         files = {
-            "upload_file": open(payload["upload_file"], 'rb')
+            "upload_file": open(file_path, 'rb')
         }
 
         return self.post_request(self.url, data=payload.model_dump(), files=files)
