@@ -16,13 +16,7 @@ class APIClient:
         :param params: GET-параметры запроса (например, ?key=value).
         :return: Объект Response с данными ответа.
         """
-        try:
-            response = self.client.get(url, params=params)
-            response.raise_for_status()
-
-            return response
-        except RequestError as e:
-            return e
+        return self.client.get(url, params=params)
 
     def post_request(
             self,
@@ -50,13 +44,7 @@ class APIClient:
         :param json: Данные для обновления в формате JSON.
         :return: Объект Response с данными ответа.
         """
-        try:
-            response = self.client.patch(url, json=json)
-            response.raise_for_status()
-
-            return response
-        except RequestError as e:
-            return e
+        return self.client.patch(url, json=json)
 
     def delete_request(self, url: URL | str) -> Response | RequestError:
         """
@@ -65,10 +53,5 @@ class APIClient:
         :param url: URL-адрес эндпоинта.
         :return: Объект Response с данными ответа.
         """
-        try:
-            response = self.client.delete(url)
-            response.raise_for_status()
+        return self.client.delete(url)
 
-            return response
-        except RequestError as e:
-            return e
