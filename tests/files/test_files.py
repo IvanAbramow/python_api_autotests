@@ -3,9 +3,12 @@ from http import HTTPStatus
 import pytest
 
 from clients.files import FilesClient
-from schemas.file import UploadFileRequestSchema, UploadFileResponseSchema
+from fixtures.files import FileFixture
+from schemas.error import ValidationErrorResponseSchema
+from schemas.file import UploadFileRequestSchema, UploadFileResponseSchema, GetFileResponseSchema
 from tools.asserts.base import assert_status_code
-from tools.asserts.files import assert_create_file_response
+from tools.asserts.files import assert_create_file_response, assert_file, assert_create_file_with_empty_directory, \
+    assert_create_file_with_empty_filename
 from tools.asserts.schema import validate_json_schema
 
 
@@ -13,7 +16,7 @@ from tools.asserts.schema import validate_json_schema
 @pytest.mark.files
 class TestFiles:
     def test_create_file(self, files_client: FilesClient):
-        request = UploadFileRequestSchema(upload_file="data/image.png")
+        request = UploadFileRequestSchema(upload_file="./image.png")
         response = files_client.upload_request(request)
         response_data = UploadFileResponseSchema.model_validate_json(response.text)
 
@@ -21,3 +24,32 @@ class TestFiles:
         assert_create_file_response(request, response_data)
 
         validate_json_schema(response.json(), response_data.model_json_schema())
+
+    def test_get_file_by_id(self, files_client: FilesClient, function_file: FileFixture):
+        response = files_client.get_by_id(function_file.file_id)
+        response_data = GetFileResponseSchema.model_validate_json(response.text)
+
+        assert_status_code(response.status_code, HTTPStatus.OK)
+        assert_file(response_data.file, function_file.response.file)
+
+        validate_json_schema(response.json(), response_data.model_json_schema())
+
+    def test_create_file_with_empty_filename(self, files_client: FilesClient):
+        request = UploadFileRequestSchema(filename="", upload_file="./image.png")
+        response = files_client.upload_request(request)
+        response_data = ValidationErrorResponseSchema.model_validate_json(response.text)
+
+        assert_status_code(response.status_code, HTTPStatus.UNPROCESSABLE_ENTITY)
+        assert_create_file_with_empty_filename(response_data)
+
+    def test_create_file_with_empty_directory(self, files_client: FilesClient):
+        request = UploadFileRequestSchema(directory="", upload_file="./image.png")
+        response = files_client.upload_request(request)
+        response_data = ValidationErrorResponseSchema.model_validate_json(response.text)
+
+        assert_status_code(response.status_code, HTTPStatus.UNPROCESSABLE_ENTITY)
+        assert_create_file_with_empty_directory(response_data)
+
+
+
+

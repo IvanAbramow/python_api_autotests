@@ -30,7 +30,7 @@ class APIClient:
             json: Any | None = None,
             data: RequestData | None = None,
             files: RequestFiles | None = None
-    ) -> Response | RequestError:
+    ) -> Response:
         """
         Выполняет POST-запрос.
 
@@ -40,13 +40,7 @@ class APIClient:
         :param files: Файлы для загрузки на сервер.
         :return: Объект Response с данными ответа.
         """
-        try:
-            response = self.client.post(url, json=json, data=data, files=files)
-            response.raise_for_status()
-
-            return response
-        except RequestError as e:
-            return e
+        return self.client.post(url, json=json, data=data, files=files)
 
     def patch_request(self, url: URL | str, json: Any | None = None) -> Response | RequestError:
         """

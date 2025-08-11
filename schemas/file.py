@@ -16,11 +16,17 @@ class UploadFileRequestSchema(BaseModel):
     model_config = ConfigDict(populate_by_name=True)
 
     filename: str = Field(default="image.png")
-    directory: str = Field(default="./data/image.png")
-    upload_file: str
+    directory: str = Field(default="image.png")
+    upload_file: str = Field(default="./image.png")
 
 class UploadFileResponseSchema(BaseModel):
     """
     Описание структуры ответа загрузки файла.
+    """
+    file: FileSchema
+
+class GetFileResponseSchema(BaseModel):
+    """
+    Описание структуры ответа получения файла.
     """
     file: FileSchema

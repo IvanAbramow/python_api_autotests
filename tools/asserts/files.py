@@ -1,7 +1,9 @@
 import httpx
 
-from schemas.file import UploadFileRequestSchema, UploadFileResponseSchema
+from schemas.error import ValidationErrorResponseSchema, ValidationErrorSchema
+from schemas.file import UploadFileRequestSchema, UploadFileResponseSchema, FileSchema
 from tools.asserts.base import assert_equal
+from tools.asserts.errors import assert_validation_error_response
 
 
 def assert_create_file_response(request: UploadFileRequestSchema, response: UploadFileResponseSchema):
@@ -22,10 +24,66 @@ def assert_create_file_response(request: UploadFileRequestSchema, response: Uplo
 
 def assert_file_is_accessible(url: str):
     """
-    Проверяет, что файл доступен по указанному URL.
+    Проверяет, что файл доступен по-указанному URL.
 
     :param url: Ссылка на файл.
     :raises AssertionError: Если файл не доступен.
     """
     response = httpx.get(url)
     assert response.status_code == 200, f"Файл недоступен по URL: {url}"
+
+
+def assert_file(actual: FileSchema, expected: FileSchema):
+    """
+    Проверяет, что фактические данные файла соответствуют ожидаемым.
+
+    :param actual: Фактические данные файла.
+    :param expected: Ожидаемые данные файла.
+    :raises AssertionError: Если хотя бы одно поле не совпадает.
+    """
+    assert_equal(actual.id, expected.id, "id")
+    assert_equal(actual.url, expected.url, "url")
+    assert_equal(actual.filename, expected.filename, "filename")
+    assert_equal(actual.directory, expected.directory, "directory")
+
+
+def assert_create_file_with_empty_filename(actual: ValidationErrorResponseSchema):
+    """
+    Проверяет, что ответ на создание файла с пустым именем файла соответствует ожидаемой валидационной ошибке.
+
+    :param actual: Ответ от API с ошибкой валидации, который необходимо проверить.
+    :raises AssertionError: Если фактический ответ не соответствует ожидаемому.
+    """
+    expected = ValidationErrorResponseSchema(
+        details=[
+            ValidationErrorSchema(
+                type="string_too_short",
+                input="",
+                context={"min_length": 1},
+                message="String should have at least 1 character",
+                location=["body", "filename"]
+            )
+        ]
+    )
+
+    assert_validation_error_response(actual, expected)
+
+def assert_create_file_with_empty_directory(actual: ValidationErrorResponseSchema):
+    """
+    Проверяет, что ответ на создание файла с пустым значением директории соответствует ожидаемой валидационной ошибке.
+
+    :param actual: Ответ от API с ошибкой валидации, который необходимо проверить.
+    :raises AssertionError: Если фактический ответ не соответствует ожидаемому.
+    """
+    expected = ValidationErrorResponseSchema(
+        details=[
+            ValidationErrorSchema(
+                type="string_too_short",
+                input="",
+                context={"min_length": 1},
+                message="String should have at least 1 character",
+                location=["body", "directory"]
+            )
+        ]
+    )
+    assert_validation_error_response(actual, expected)

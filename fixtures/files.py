@@ -10,6 +10,10 @@ class FileFixture(BaseModel):
     request: UploadFileRequestSchema
     response: UploadFileResponseSchema
 
+    @property
+    def file_id(self) -> str:
+        return self.response.file.id
+
 
 @pytest.fixture
 def files_client(function_user: UserFixture) -> FilesClient:
@@ -18,6 +22,7 @@ def files_client(function_user: UserFixture) -> FilesClient:
 
 @pytest.fixture
 def function_file(files_client: FilesClient) -> FileFixture:
-    request = UploadFileRequestSchema(upload_file="./data/image.png")
+    request = UploadFileRequestSchema()
     response = files_client.upload_file(request)
+
     return FileFixture(request=request, response=response)
