@@ -4,9 +4,11 @@ import pytest
 
 from clients.exercises import ExercisesClient
 from fixtures.exercises import ExercisesFixture
-from schemas.exercises import CreateExerciseRequestSchema, CreateExerciseResponseSchema, GetExerciseByIdResponseSchema
+from schemas.exercises import CreateExerciseRequestSchema, CreateExerciseResponseSchema, GetExerciseByIdResponseSchema, \
+    UpdateExerciseRequestSchema, UpdateExerciseResponseSchema
 from tools.asserts.base import assert_status_code
-from tools.asserts.exercises import assert_create_exercise_response, assert_get_exercise_by_id
+from tools.asserts.exercises import assert_create_exercise_response, assert_get_exercise_by_id, \
+    assert_update_course_response
 from tools.asserts.schema import validate_json_schema
 
 
@@ -30,3 +32,15 @@ class TestExercises:
 
         assert_status_code(response.status_code, HTTPStatus.OK)
         assert_get_exercise_by_id(get_response=response_data, create_response=function_exercises.response)
+
+    def test_update_exercise(self, exercise_client: ExercisesClient, function_exercises: ExercisesFixture):
+        request = UpdateExerciseRequestSchema(description="Test")
+
+        response = exercise_client.update_by_id_request(function_exercises.exercise_id, request)
+        response_data = UpdateExerciseResponseSchema.model_validate_json(response.text)
+
+        assert_status_code(response.status_code, HTTPStatus.OK)
+        assert_update_course_response(request, response_data)
+
+        validate_json_schema(response.json(), response_data.model_json_schema())
+

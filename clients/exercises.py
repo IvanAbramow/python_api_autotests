@@ -2,7 +2,7 @@ from httpx import Client, Response, RequestError
 
 from api_client import APIClient
 from clients.private_client_builder import build_private_client, AuthenticationUserSchema
-from schemas.exercises import CreateExerciseRequestSchema, CreateExerciseResponseSchema
+from schemas.exercises import CreateExerciseRequestSchema, CreateExerciseResponseSchema, UpdateExerciseRequestSchema
 
 
 class ExercisesClient(APIClient):
@@ -21,7 +21,7 @@ class ExercisesClient(APIClient):
         :param payload: Словарь с email, password, lastName, firstName, middleName.
         :return: Ответ от сервера в виде объекта httpx.Response
         """
-        return self.post_request(self.url, json=payload.model_dump(by_alias=True))
+        return self.post_request(self.url, json=payload.model_dump(by_alias=True, exclude_none=True))
 
     def get_by_id_request(self, exercise_id: str) -> Response | RequestError:
         """
@@ -32,6 +32,17 @@ class ExercisesClient(APIClient):
         """
 
         return self.get_request(f"{self.url}/{exercise_id}")
+
+    def update_by_id_request(self, exercise_id: str, request: UpdateExerciseRequestSchema) -> Response | RequestError:
+        """
+        Метод обновления задания по идентификатору.
+
+        :param payload: UpdateExerciseRequestSchema
+        :param exercise_id: Идентификатор задания.
+        :return: Ответ от сервера в виде объекта httpx.Response
+        """
+
+        return self.patch_request(f"{self.url}/{exercise_id}", json=request.model_dump(by_alias=True, exclude_none=True))
 
     def get_all_by_course_id_request(self, course_id: str) -> Response | RequestError:
         """

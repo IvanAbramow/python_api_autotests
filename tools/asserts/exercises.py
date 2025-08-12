@@ -1,4 +1,5 @@
-from schemas.exercises import CreateExerciseRequestSchema, CreateExerciseResponseSchema, GetExerciseByIdResponseSchema
+from schemas.exercises import CreateExerciseRequestSchema, CreateExerciseResponseSchema, GetExerciseByIdResponseSchema, \
+    UpdateExerciseRequestSchema, UpdateExerciseResponseSchema
 from tools.asserts.base import assert_equal
 
 
@@ -18,3 +19,17 @@ def assert_get_exercise_by_id(get_response: GetExerciseByIdResponseSchema, creat
     assert_equal(get_response.exercise.min_score, create_response.exercise.min_score, 'min_score')
     assert_equal(get_response.exercise.order_index, create_response.exercise.order_index, 'order_index')
     assert_equal(get_response.exercise.estimated_time, create_response.exercise.estimated_time, 'estimated_time')
+
+def assert_update_course_response(
+        request: UpdateExerciseRequestSchema,
+        response: UpdateExerciseResponseSchema):
+    """
+    Проверяет, что ответ на обновление курса соответствует данным из запроса.
+    """
+
+    request_data = request.model_dump(exclude_none=True)
+
+    for field, request_value in request_data.items():
+        if field in response.exercise.model_dump():
+            response_value = getattr(response.exercise, field)
+            assert_equal(response_value, request_value, field)
