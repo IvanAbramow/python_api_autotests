@@ -24,7 +24,6 @@ class CreateCourseRequestSchema(BaseModel):
     """
     model_config = ConfigDict(populate_by_name=True)
 
-    id: str = Field(default_factory=fake.generate_uuid) # Убраны скобки
     title: str = Field(default="Playwright")
     max_score: int = Field(alias="maxScore", default_factory=lambda: fake.generate_random_integer(50, 100)) # Используем lambda
     min_score: int = Field(alias="minScore", default_factory=lambda: fake.generate_random_integer(10, 30)) # Используем lambda

@@ -1,5 +1,5 @@
 from schemas.courses import UpdateCourseRequestSchema, UpdateCourseResponseSchema, CreateCourseResponseSchema, \
-    GetCoursesResponseSchema, CreatedCourseSchema
+    GetCoursesResponseSchema, CreatedCourseSchema, CreateCourseRequestSchema
 from tools.asserts.base import assert_equal, assert_length
 from tools.asserts.files import assert_file
 
@@ -18,6 +18,18 @@ def assert_update_course_response(
             response_value = getattr(response.course, field)
             assert_equal(response_value, request_value, field)
 
+def assert_create_course_response(
+        request: CreateCourseRequestSchema,
+        response: CreateCourseResponseSchema
+):
+    """
+    Проверяет, что ответ на создание курса соответствует данным из запроса.
+    """
+    assert_equal(request.title, response.course.title, "title")
+    assert_equal(request.max_score, response.course.max_score, "max_score")
+    assert_equal(request.min_score, response.course.min_score, "min_score")
+    assert_equal(request.description, response.course.description, "description")
+    assert_equal(request.estimated_time, response.course.estimated_time, "estimated_time")
 
 def assert_course(actual: CreatedCourseSchema, expected: CreatedCourseSchema):
     """
