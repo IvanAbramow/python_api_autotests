@@ -1,9 +1,7 @@
 import pytest
 from pydantic import BaseModel
 
-from clients.courses import CoursesClient
 from clients.exercises import ExercisesClient, get_exercises_client
-from fixtures.courses import CoursesFixture
 from fixtures.users import UserFixture
 from schemas.exercises import CreateExerciseRequestSchema, CreateExerciseResponseSchema
 
@@ -11,6 +9,10 @@ from schemas.exercises import CreateExerciseRequestSchema, CreateExerciseRespons
 class ExercisesFixture(BaseModel):
     request: CreateExerciseRequestSchema
     response: CreateExerciseResponseSchema
+
+    @property
+    def exercise_id(self) -> str:
+        return self.response.exercise.id
 
 
 @pytest.fixture
