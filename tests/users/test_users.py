@@ -27,8 +27,6 @@ class TestUsers:
 
         validate_json_schema(create_response.json(), create_response_data.model_json_schema())
 
-    @pytest.mark.users
-    @pytest.mark.regression
     def test_get_user_me(self, function_user: UserFixture, private_users_client: UsersClient):
         response = private_users_client.get_me_request()
         response_data = GetUserResponseSchema.model_validate_json(response.text)

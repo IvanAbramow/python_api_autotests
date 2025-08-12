@@ -32,4 +32,6 @@ def function_course(
     request = CreateCourseRequestSchema(preview_file_id=function_file.file_id, created_by_user_id=function_user.user_id)
     response = courses_client.create_course(request)
 
+    print(response.model_dump_json())
+
     return CoursesFixture(request=request, response=response)

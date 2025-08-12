@@ -2,8 +2,8 @@ from httpx import Client, Response
 
 from api_client import APIClient
 from clients.private_client_builder import build_private_client, AuthenticationUserSchema
-from schemas.courses import GetUserCoursesRequestSchema, CreateCourseRequestSchema, UpdateCourseRequestSchema, \
-    CreateCourseResponseSchema
+from schemas.courses import CreateCourseRequestSchema, UpdateCourseRequestSchema, \
+    CreateCourseResponseSchema, GetCoursesRequestSchema
 
 
 class CoursesClient(APIClient):
@@ -15,7 +15,7 @@ class CoursesClient(APIClient):
         super().__init__(client)
         self.url = '/api/v1/courses'
 
-    def get_user_courses_request(self, query: GetUserCoursesRequestSchema) -> Response:
+    def get_user_courses_request(self, query: GetCoursesRequestSchema) -> Response:
         """
         Метод получения списка курсов.
 
@@ -41,7 +41,7 @@ class CoursesClient(APIClient):
         previewFileId, createdByUserId.
         :return: Ответ от сервера в виде объекта httpx.Response
         """
-        return self.post_request(self.url, json=request.model_dump(by_alias=True))
+        return self.post_request(self.url, json=request.model_dump(by_alias=True, exclude_none=True))
 
     def update_request(self, course_id: str, request: UpdateCourseRequestSchema) -> Response:
         """
@@ -51,7 +51,7 @@ class CoursesClient(APIClient):
         :param request: Словарь с title, maxScore, minScore, description, estimatedTime.
         :return: Ответ от сервера в виде объекта httpx.Response
         """
-        return self.patch_request(f"{self.url}/{course_id}", json=request.model_dump(by_alias=True))
+        return self.patch_request(f"{self.url}/{course_id}", json=request.model_dump(by_alias=True, exclude_none=True))
 
     def delete_request(self, course_id: str) -> Response:
         """
