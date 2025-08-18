@@ -1,6 +1,5 @@
 from typing import Any, Sized
 
-
 def assert_length(actual: Sized, expected: Sized, name: str):
     """
     Проверяет, что длины двух объектов совпадают.

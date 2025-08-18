@@ -1,3 +1,4 @@
+import allure
 from httpx import Client, Response, RequestError
 
 from api_client import APIClient
@@ -15,6 +16,7 @@ class ExercisesClient(APIClient):
         super().__init__(client)
         self.url = "/api/v1/exercises"
 
+    @allure.step('Create exercise')
     def create_request(self, payload: CreateExerciseRequestSchema) -> Response | RequestError:
         """
         Метод создает задание.
@@ -24,6 +26,7 @@ class ExercisesClient(APIClient):
         """
         return self.post_request(self.url, json=payload.model_dump(by_alias=True, exclude_none=True))
 
+    @allure.step('Get exercise by id: {exercise_id}')
     def get_by_id_request(self, exercise_id: str) -> Response | RequestError:
         """
         Метод получения задания по идентификатору.
@@ -34,6 +37,7 @@ class ExercisesClient(APIClient):
 
         return self.get_request(f"{self.url}/{exercise_id}")
 
+    @allure.step('Delete exercise by id: {exercise_id}')
     def delete_by_id_request(self, exercise_id: str) -> Response | RequestError:
         """
         Метод удаления задания по идентификатору.
@@ -44,6 +48,7 @@ class ExercisesClient(APIClient):
 
         return self.delete_request(f"{self.url}/{exercise_id}")
 
+    @allure.step('Update exercise by id: {exercise_id}')
     def update_by_id_request(self, exercise_id: str, request: UpdateExerciseRequestSchema) -> Response | RequestError:
         """
         Метод обновления задания по идентификатору.
@@ -55,6 +60,7 @@ class ExercisesClient(APIClient):
 
         return self.patch_request(f"{self.url}/{exercise_id}", json=request.model_dump(by_alias=True, exclude_none=True))
 
+    @allure.step('Get all exercises for course by course id')
     def get_all_by_course_id_request(self, query: GetExercisesRequestSchema) -> Response | RequestError:
         """
         Метод получения всех заданий курса
@@ -65,6 +71,7 @@ class ExercisesClient(APIClient):
 
         return self.get_request(self.url, params=query.model_dump(by_alias=True))
 
+    @allure.step('Create new exercise by user')
     def create_new_exercise(self, payload: CreateExerciseRequestSchema) -> CreateExerciseResponseSchema:
         response = self.create_request(payload)
         return CreateExerciseResponseSchema.model_validate_json(response.text)

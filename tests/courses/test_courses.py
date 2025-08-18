@@ -1,6 +1,8 @@
 from http import HTTPStatus
 
+import allure
 import pytest
+from allure_commons.types import Severity
 
 from clients.courses import CoursesClient
 from fixtures.courses import CoursesFixture
@@ -8,6 +10,8 @@ from fixtures.files import FileFixture
 from fixtures.users import UserFixture
 from schemas.courses import UpdateCourseRequestSchema, UpdateCourseResponseSchema, GetCoursesRequestSchema, \
     GetCourseByIdResponseSchema, GetCoursesResponseSchema, CreateCourseRequestSchema, CreateCourseResponseSchema
+from tools.allure.annotations import AllureEpics, AllureFeatures
+from tools.allure.tags import AllureTags
 from tools.asserts.base import assert_status_code
 from tools.asserts.courses import assert_update_course_response, assert_get_courses_response, \
     assert_create_course_response
@@ -16,7 +20,12 @@ from tools.asserts.schema import validate_json_schema
 
 @pytest.mark.regression
 @pytest.mark.courses
+@allure.epic(AllureEpics.LMS)
+@allure.feature(AllureFeatures.COURSES)
 class TestCourses:
+    @allure.title('Create course')
+    @allure.tag(AllureTags.POSITIVE)
+    @allure.severity(Severity.BLOCKER)
     def test_create_course(self, courses_client: CoursesClient, function_file: FileFixture, function_user: UserFixture):
         request = CreateCourseRequestSchema(previewFileId=function_file.file_id, createdByUserId=function_user.user_id)
 
@@ -28,6 +37,9 @@ class TestCourses:
 
         validate_json_schema(response.json(), response_data.model_json_schema())
 
+    @allure.title('Update course')
+    @allure.tag(AllureTags.POSITIVE)
+    @allure.severity(Severity.NORMAL)
     def test_update_course(self, courses_client: CoursesClient, function_course: CoursesFixture):
         request = UpdateCourseRequestSchema(description="Test")
 
@@ -39,6 +51,9 @@ class TestCourses:
 
         validate_json_schema(response.json(), response_data.model_json_schema())
 
+    @allure.title('Get course by id')
+    @allure.tag(AllureTags.POSITIVE)
+    @allure.severity(Severity.BLOCKER)
     def test_get_courses_by_course_id(
             self,
             courses_client: CoursesClient,
@@ -50,6 +65,9 @@ class TestCourses:
         assert_status_code(response.status_code, HTTPStatus.OK)
         validate_json_schema(response.json(), response_data.model_json_schema())
 
+    @allure.title('Get user course by user id')
+    @allure.tag(AllureTags.POSITIVE)
+    @allure.severity(Severity.NORMAL)
     def test_get_courses_by_user_id(
             self,
             courses_client: CoursesClient,

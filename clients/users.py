@@ -1,3 +1,4 @@
+import allure
 from httpx import Client, Response, RequestError
 
 from api_client import APIClient
@@ -15,6 +16,7 @@ class UsersClient(APIClient):
         super().__init__(client)
         self.url = "/api/v1/users"
 
+    @allure.step('Create user')
     def create_request(self, payload: CreateUserRequestSchema) -> Response | RequestError:
         """
         Метод создает пользователя.
@@ -24,6 +26,7 @@ class UsersClient(APIClient):
         """
         return self.post_request(self.url, json=payload.model_dump(by_alias=True))
 
+    @allure.step('Update user')
     def update_request(self, payload: UpdateUserRequestSchema) -> Response | RequestError:
         """
         Метод обновления пользователя.
@@ -33,6 +36,7 @@ class UsersClient(APIClient):
         """
         return self.patch_request(self.url, json=payload.model_dump(by_alias=True))
 
+    @allure.step('Get user me')
     def get_me_request(self) -> Response | RequestError:
         """
         Метод получения пользователя.
@@ -41,6 +45,7 @@ class UsersClient(APIClient):
         """
         return self.get_request(f"{self.url}/me")
 
+    @allure.step('Get user by id: {user_id}')
     def get_by_id_request(self, user_id: str) -> Response | RequestError:
         """
         Метод получения пользователя по идентификатору.
@@ -51,6 +56,7 @@ class UsersClient(APIClient):
 
         return self.get_request(f"{self.url}/{user_id}")
 
+    @allure.step('Delete user by id: {user_id}')
     def delete_by_id_request(self, user_id: str) -> None:
         """
         Метод удаления пользователя по идентификатору.

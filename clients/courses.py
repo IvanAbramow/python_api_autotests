@@ -1,3 +1,4 @@
+import allure
 from httpx import Client, Response
 
 from api_client import APIClient
@@ -15,6 +16,7 @@ class CoursesClient(APIClient):
         super().__init__(client)
         self.url = '/api/v1/courses'
 
+    @allure.step('Get all courses')
     def get_user_courses_request(self, query: GetCoursesRequestSchema) -> Response:
         """
         Метод получения списка курсов.
@@ -24,6 +26,7 @@ class CoursesClient(APIClient):
         """
         return self.get_request(self.url, params=query.model_dump(by_alias=True))
 
+    @allure.step('Get course by id: {course_id}')
     def get_by_id_request(self, course_id: str) -> Response:
         """
         Метод получения курса.
@@ -33,6 +36,7 @@ class CoursesClient(APIClient):
         """
         return self.get_request(f"{self.url}/{course_id}")
 
+    @allure.step('Create course')
     def create_request(self, request: CreateCourseRequestSchema) -> Response:
         """
         Метод создания курса.
@@ -43,6 +47,7 @@ class CoursesClient(APIClient):
         """
         return self.post_request(self.url, json=request.model_dump(by_alias=True, exclude_none=True))
 
+    @allure.step('Update course')
     def update_request(self, course_id: str, request: UpdateCourseRequestSchema) -> Response:
         """
         Метод обновления курса.
@@ -53,6 +58,7 @@ class CoursesClient(APIClient):
         """
         return self.patch_request(f"{self.url}/{course_id}", json=request.model_dump(by_alias=True, exclude_none=True))
 
+    @allure.step('Delete course by id: {course_id}')
     def delete_request(self, course_id: str) -> Response:
         """
         Метод удаления курса.
@@ -62,6 +68,7 @@ class CoursesClient(APIClient):
         """
         return self.delete_request(f"{self.url}/{course_id}")
 
+    @allure.step('Create user course')
     def create_course(self, request: CreateCourseRequestSchema) -> CreateCourseResponseSchema:
         response = self.create_request(request)
         return CreateCourseResponseSchema.model_validate_json(response.text)

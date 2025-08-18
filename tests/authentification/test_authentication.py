@@ -1,10 +1,14 @@
 from http import HTTPStatus
 
+import allure
 import pytest
+from allure_commons.types import Severity
 
 from clients.authentication import AuthenticationClient
 from fixtures.users import UserFixture
 from schemas.authentication import LoginRequestSchema, LoginResponseSchema
+from tools.allure.annotations import AllureEpics, AllureFeatures
+from tools.allure.tags import AllureTags
 from tools.asserts.authentication import assert_login_response
 from tools.asserts.base import assert_status_code
 from tools.asserts.schema import validate_json_schema
@@ -12,7 +16,12 @@ from tools.asserts.schema import validate_json_schema
 
 @pytest.mark.authentication
 @pytest.mark.regression
+@allure.epic(AllureEpics.LMS)
+@allure.feature(AllureFeatures.AUTHENTICATION)
 class TestAuthentication:
+    @allure.title('Success login')
+    @allure.tag(AllureTags.POSITIVE)
+    @allure.severity(Severity.BLOCKER)
     def test_login(self, function_user: UserFixture, authentication_client: AuthenticationClient):
         request = LoginRequestSchema(
             email=function_user.email,

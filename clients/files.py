@@ -1,5 +1,6 @@
 import os
 
+import allure
 from httpx import Client, Response
 
 from api_client import APIClient
@@ -16,6 +17,7 @@ class FilesClient(APIClient):
         super().__init__(client)
         self.url = '/api/v1/files'
 
+    @allure.step('Upload file')
     def upload_request(self, payload: UploadFileRequestSchema) -> Response:
         """
         Метод загрузки файла.
@@ -33,6 +35,7 @@ class FilesClient(APIClient):
 
         return self.post_request(self.url, data=payload.model_dump(), files=files)
 
+    @allure.step('Get file by id: {file_id}')
     def get_by_id(self, file_id: str) -> Response:
         """
         Метод получения файла по id.
@@ -43,6 +46,7 @@ class FilesClient(APIClient):
 
         return self.get_request(f"{self.url}/{file_id}")
 
+    @allure.step('Delete file by id: {file_id}')
     def delete_by_id(self, file_id: str) -> Response:
         """
         Метод удаления файла по id.
@@ -53,6 +57,7 @@ class FilesClient(APIClient):
 
         return self.delete_request(f"{self.url}/{file_id}")
 
+    @allure.step('Upload file by user')
     def upload_file(self, payload: UploadFileRequestSchema) -> UploadFileResponseSchema:
         response = self.upload_request(payload)
         return UploadFileResponseSchema.model_validate_json(response.text)

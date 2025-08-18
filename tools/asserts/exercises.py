@@ -1,8 +1,11 @@
+import allure
+
 from schemas.exercises import CreateExerciseRequestSchema, CreateExerciseResponseSchema, GetExerciseByIdResponseSchema, \
     UpdateExerciseRequestSchema, UpdateExerciseResponseSchema
 from tools.asserts.base import assert_equal
 
 
+@allure.step("Check create exercise response body")
 def assert_create_exercise_response(request: CreateExerciseRequestSchema, response: CreateExerciseResponseSchema):
     assert_equal(request.course_id, response.exercise.course_id, 'course_id')
     assert_equal(request.title, response.exercise.title, 'title')
@@ -12,6 +15,7 @@ def assert_create_exercise_response(request: CreateExerciseRequestSchema, respon
     assert_equal(request.min_score, response.exercise.min_score, 'min_score')
 
 
+@allure.step("Check get exercise response body")
 def assert_get_exercise_by_id(get_response: GetExerciseByIdResponseSchema,
                               create_response: CreateExerciseResponseSchema):
     assert_equal(get_response.exercise.id, create_response.exercise.id, 'id')
@@ -23,6 +27,7 @@ def assert_get_exercise_by_id(get_response: GetExerciseByIdResponseSchema,
     assert_equal(get_response.exercise.estimated_time, create_response.exercise.estimated_time, 'estimated_time')
 
 
+@allure.step("Check update exercise response body")
 def assert_update_course_response(
         request: UpdateExerciseRequestSchema,
         response: UpdateExerciseResponseSchema):

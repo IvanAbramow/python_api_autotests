@@ -1,7 +1,10 @@
+import allure
+
 from schemas.authentication import LoginResponseSchema
 from tools.asserts.base import assert_equal, assert_is_true
 
 
+@allure.step('Check login response body')
 def assert_login_response(response: LoginResponseSchema):
     """
     Проверяет корректность ответа при успешной авторизации.

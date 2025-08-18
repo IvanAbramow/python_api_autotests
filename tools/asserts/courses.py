@@ -1,9 +1,12 @@
+import allure
+
 from schemas.courses import UpdateCourseRequestSchema, UpdateCourseResponseSchema, CreateCourseResponseSchema, \
     GetCoursesResponseSchema, CreatedCourseSchema, CreateCourseRequestSchema
 from tools.asserts.base import assert_equal, assert_length
 from tools.asserts.files import assert_file
 
 
+@allure.step("Check update course response body")
 def assert_update_course_response(
         request: UpdateCourseRequestSchema,
         response: UpdateCourseResponseSchema):
@@ -18,6 +21,7 @@ def assert_update_course_response(
             response_value = getattr(response.course, field)
             assert_equal(response_value, request_value, field)
 
+@allure.step("Check create course response body")
 def assert_create_course_response(
         request: CreateCourseRequestSchema,
         response: CreateCourseResponseSchema
@@ -48,6 +52,7 @@ def assert_course(actual: CreatedCourseSchema, expected: CreatedCourseSchema):
 
     assert_file(actual.preview_file, expected.preview_file)
 
+@allure.step("Check get course response body")
 def assert_get_courses_response(
         get_courses_response: GetCoursesResponseSchema,
         create_course_responses: list[CreateCourseResponseSchema]

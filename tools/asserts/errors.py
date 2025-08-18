@@ -1,3 +1,5 @@
+import allure
+
 from schemas.error import ValidationErrorSchema, ValidationErrorResponseSchema, InternalErrorResponseSchema
 from tools.asserts.base import assert_equal, assert_length
 
@@ -17,6 +19,7 @@ def assert_validation_error(actual: ValidationErrorSchema, expected: ValidationE
     assert_equal(actual.location, expected.location, "location")
 
 
+@allure.step("Check validation error response body")
 def assert_validation_error_response(
         actual: ValidationErrorResponseSchema,
         expected: ValidationErrorResponseSchema
@@ -34,6 +37,7 @@ def assert_validation_error_response(
     for index, detail in enumerate(expected.details):
         assert_validation_error(actual.details[index], detail)
 
+@allure.step("Check internal error detail")
 def assert_internal_error_response(actual: InternalErrorResponseSchema, expected: InternalErrorResponseSchema):
     """
     Функция для проверки внутренней ошибки. Например, ошибки 404 (File not found).
