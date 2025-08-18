@@ -1,3 +1,5 @@
+import os
+
 from httpx import Client, Response
 
 from api_client import APIClient
@@ -21,6 +23,9 @@ class FilesClient(APIClient):
         :param payload: Словарь с filename, directory, upload_file.
         :return: Ответ от сервера в виде объекта httpx.Response
         """
+
+        if not os.path.exists(payload.upload_file):
+            raise FileNotFoundError(f"File not found: {payload.upload_file}")
 
         files = {
             "upload_file": open(payload.upload_file, 'rb')

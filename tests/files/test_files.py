@@ -16,8 +16,10 @@ from tools.asserts.schema import validate_json_schema
 @pytest.mark.regression
 @pytest.mark.files
 class TestFiles:
+    file_path = "../../data/files/image.png"
+
     def test_create_file(self, files_client: FilesClient):
-        request = UploadFileRequestSchema(upload_file="./image.png")
+        request = UploadFileRequestSchema(upload_file=self.file_path)
         response = files_client.upload_request(request)
         response_data = UploadFileResponseSchema.model_validate_json(response.text)
 
@@ -50,7 +52,7 @@ class TestFiles:
 
 
     def test_create_file_with_empty_filename(self, files_client: FilesClient):
-        request = UploadFileRequestSchema(filename="", upload_file="./image.png")
+        request = UploadFileRequestSchema(filename="", upload_file=self.file_path)
         response = files_client.upload_request(request)
         response_data = ValidationErrorResponseSchema.model_validate_json(response.text)
 
@@ -60,7 +62,7 @@ class TestFiles:
         validate_json_schema(response.json(), response_data.model_json_schema())
 
     def test_create_file_with_empty_directory(self, files_client: FilesClient):
-        request = UploadFileRequestSchema(directory="", upload_file="./image.png")
+        request = UploadFileRequestSchema(directory="", upload_file=self.file_path)
         response = files_client.upload_request(request)
         response_data = ValidationErrorResponseSchema.model_validate_json(response.text)
 

@@ -17,7 +17,7 @@ class UploadFileRequestSchema(BaseModel):
 
     filename: str = Field(default="image.png")
     directory: str = Field(default="image.png")
-    upload_file: str = Field(default="./image.png")
+    upload_file: str = Field(default="../../data/files/image.png")
 
 class UploadFileResponseSchema(BaseModel):
     """
