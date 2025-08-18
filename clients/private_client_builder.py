@@ -4,7 +4,9 @@ from httpx import Client
 from pydantic import BaseModel
 
 from clients.authentication import get_authentication_client
+from clients.event_hooks import curl_event_hook
 from schemas.authentication import LoginRequestSchema
+
 
 class AuthenticationUserSchema(BaseModel, frozen=True):
     email: str
@@ -26,5 +28,6 @@ def build_private_client(user: AuthenticationUserSchema) -> Client:
     return Client(
         timeout=90,
         base_url="http://localhost:8000",
-        headers={"Authorization": f"Bearer {login_response.token.access_token}"}
+        headers={"Authorization": f"Bearer {login_response.token.access_token}"},
+        event_hooks={'request': [curl_event_hook]}
     )
