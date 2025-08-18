@@ -57,6 +57,8 @@ class TestFiles:
         assert_status_code(response.status_code, HTTPStatus.UNPROCESSABLE_ENTITY)
         assert_create_file_with_empty_filename(response_data)
 
+        validate_json_schema(response.json(), response_data.model_json_schema())
+
     def test_create_file_with_empty_directory(self, files_client: FilesClient):
         request = UploadFileRequestSchema(directory="", upload_file="./image.png")
         response = files_client.upload_request(request)
@@ -64,6 +66,8 @@ class TestFiles:
 
         assert_status_code(response.status_code, HTTPStatus.UNPROCESSABLE_ENTITY)
         assert_create_file_with_empty_directory(response_data)
+
+        validate_json_schema(response.json(), response_data.model_json_schema())
 
     def test_get_file_with_incorrect_id(self, files_client: FilesClient, function_file: FileFixture):
         response = files_client.get_by_id(file_id="incorrect-file-id")

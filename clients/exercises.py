@@ -33,6 +33,16 @@ class ExercisesClient(APIClient):
 
         return self.get_request(f"{self.url}/{exercise_id}")
 
+    def delete_by_id_request(self, exercise_id: str) -> Response | RequestError:
+        """
+        Метод удаления задания по идентификатору.
+
+        :param exercise_id: Идентификатор задания.
+        :return: Ответ от сервера в виде объекта httpx.Response
+        """
+
+        return self.delete_request(f"{self.url}/{exercise_id}")
+
     def update_by_id_request(self, exercise_id: str, request: UpdateExerciseRequestSchema) -> Response | RequestError:
         """
         Метод обновления задания по идентификатору.

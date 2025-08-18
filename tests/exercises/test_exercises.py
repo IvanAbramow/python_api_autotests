@@ -4,9 +4,11 @@ import pytest
 
 from clients.exercises import ExercisesClient
 from fixtures.exercises import ExercisesFixture
+from schemas.error import InternalErrorResponseSchema
 from schemas.exercises import CreateExerciseRequestSchema, CreateExerciseResponseSchema, GetExerciseByIdResponseSchema, \
     UpdateExerciseRequestSchema, UpdateExerciseResponseSchema
 from tools.asserts.base import assert_status_code
+from tools.asserts.errors import assert_internal_error_response
 from tools.asserts.exercises import assert_create_exercise_response, assert_get_exercise_by_id, \
     assert_update_course_response
 from tools.asserts.schema import validate_json_schema
@@ -43,4 +45,17 @@ class TestExercises:
         assert_update_course_response(request, response_data)
 
         validate_json_schema(response.json(), response_data.model_json_schema())
+
+    def test_delete_exercise(self, exercise_client: ExercisesClient, function_exercises: ExercisesFixture):
+        delete_response = exercise_client.delete_by_id_request(function_exercises.exercise_id)
+
+        assert_status_code(delete_response.status_code, HTTPStatus.OK)
+
+        get_response = exercise_client.get_by_id_request(function_exercises.exercise_id)
+        response_data = InternalErrorResponseSchema.model_validate_json(get_response.text)
+
+        assert_status_code(get_response.status_code, HTTPStatus.NOT_FOUND)
+        assert_internal_error_response(response_data, InternalErrorResponseSchema(detail="Exercise not found"))
+
+        validate_json_schema(get_response.json(), response_data.model_json_schema())
 
