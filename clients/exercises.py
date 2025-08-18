@@ -2,7 +2,8 @@ from httpx import Client, Response, RequestError
 
 from api_client import APIClient
 from clients.private_client_builder import build_private_client, AuthenticationUserSchema
-from schemas.exercises import CreateExerciseRequestSchema, CreateExerciseResponseSchema, UpdateExerciseRequestSchema
+from schemas.exercises import CreateExerciseRequestSchema, CreateExerciseResponseSchema, UpdateExerciseRequestSchema, \
+    GetExercisesRequestSchema
 
 
 class ExercisesClient(APIClient):
@@ -47,22 +48,22 @@ class ExercisesClient(APIClient):
         """
         Метод обновления задания по идентификатору.
 
-        :param payload: UpdateExerciseRequestSchema
+        :param request: UpdateExerciseRequestSchema
         :param exercise_id: Идентификатор задания.
         :return: Ответ от сервера в виде объекта httpx.Response
         """
 
         return self.patch_request(f"{self.url}/{exercise_id}", json=request.model_dump(by_alias=True, exclude_none=True))
 
-    def get_all_by_course_id_request(self, course_id: str) -> Response | RequestError:
+    def get_all_by_course_id_request(self, query: GetExercisesRequestSchema) -> Response | RequestError:
         """
         Метод получения всех заданий курса
 
-        :param course_id: Идентификатор задания.
+        :param query: GetExercisesRequestSchema
         :return: Ответ от сервера в виде объекта httpx.Response
         """
 
-        return self.get_request(f"{self.url}/{course_id}")
+        return self.get_request(self.url, params=query.model_dump(by_alias=True))
 
     def create_new_exercise(self, payload: CreateExerciseRequestSchema) -> CreateExerciseResponseSchema:
         response = self.create_request(payload)

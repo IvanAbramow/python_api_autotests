@@ -57,10 +57,6 @@ class GetExercisesRequestSchema(BaseModel):
     course_id: str = Field(alias="courseId")
 
 
-class GetExerciseByIdRequestSchema(BaseModel):
-    exercise_id: str = Field(alias="exerciseId")
-
-
 class GetExerciseByIdResponseSchema(BaseModel):
     exercise: ExerciseSchema
 

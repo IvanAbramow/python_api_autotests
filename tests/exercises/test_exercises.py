@@ -6,7 +6,7 @@ from clients.exercises import ExercisesClient
 from fixtures.exercises import ExercisesFixture
 from schemas.error import InternalErrorResponseSchema
 from schemas.exercises import CreateExerciseRequestSchema, CreateExerciseResponseSchema, GetExerciseByIdResponseSchema, \
-    UpdateExerciseRequestSchema, UpdateExerciseResponseSchema
+    UpdateExerciseRequestSchema, UpdateExerciseResponseSchema, GetExercisesResponseSchema, GetExercisesRequestSchema
 from tools.asserts.base import assert_status_code
 from tools.asserts.errors import assert_internal_error_response
 from tools.asserts.exercises import assert_create_exercise_response, assert_get_exercise_by_id, \
@@ -35,6 +35,19 @@ class TestExercises:
         assert_status_code(response.status_code, HTTPStatus.OK)
         assert_get_exercise_by_id(get_response=response_data, create_response=function_exercises.response)
 
+        validate_json_schema(response.json(), response_data.model_json_schema())
+
+    def test_get_exercises(self, exercise_client: ExercisesClient,
+                           function_exercises: ExercisesFixture):
+        response = exercise_client.get_all_by_course_id_request(
+            GetExercisesRequestSchema(courseId=function_exercises.response.exercise.course_id))
+        response_data = GetExercisesResponseSchema.model_validate_json(response.text)
+
+        assert_status_code(response.status_code, HTTPStatus.OK)
+        assert len(response_data.exercises) == 1
+
+        validate_json_schema(response.json(), response_data.model_json_schema())
+
     def test_update_exercise(self, exercise_client: ExercisesClient, function_exercises: ExercisesFixture):
         request = UpdateExerciseRequestSchema(description="Test")
 
@@ -58,4 +71,3 @@ class TestExercises:
         assert_internal_error_response(response_data, InternalErrorResponseSchema(detail="Exercise not found"))
 
         validate_json_schema(get_response.json(), response_data.model_json_schema())
-
