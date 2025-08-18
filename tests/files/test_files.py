@@ -5,6 +5,7 @@ import pytest
 from allure_commons.types import Severity
 
 from clients.files import FilesClient
+from config import settings
 from fixtures.files import FileFixture
 from schemas.error import ValidationErrorResponseSchema, InternalErrorResponseSchema
 from schemas.file import UploadFileRequestSchema, UploadFileResponseSchema, GetFileResponseSchema
@@ -22,13 +23,13 @@ from tools.asserts.schema import validate_json_schema
 @allure.epic(AllureEpics.LMS)
 @allure.feature(AllureFeatures.FILES)
 class TestFiles:
-    file_path = "./data/files/image.png"
+    file_path = settings.test_data.image_png_file
 
     @allure.title('Create file')
     @allure.tag(AllureTags.POSITIVE)
     @allure.severity(Severity.BLOCKER)
     def test_create_file(self, files_client: FilesClient):
-        request = UploadFileRequestSchema(upload_file=self.file_path)
+        request = UploadFileRequestSchema(upload_file=settings.test_data.image_png_file)
         response = files_client.upload_request(request)
         response_data = UploadFileResponseSchema.model_validate_json(response.text)
 

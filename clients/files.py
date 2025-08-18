@@ -15,7 +15,7 @@ class FilesClient(APIClient):
 
     def __init__(self, client: Client):
         super().__init__(client)
-        self.url = '/api/v1/files'
+        self.url = 'api/v1/files'
 
     @allure.step('Upload file')
     def upload_request(self, payload: UploadFileRequestSchema) -> Response:
@@ -33,7 +33,7 @@ class FilesClient(APIClient):
             "upload_file": open(payload.upload_file, 'rb')
         }
 
-        return self.post_request(self.url, data=payload.model_dump(), files=files)
+        return self.post_request(self.url, data=payload.model_dump(exclude={"upload_file"}), files=files)
 
     @allure.step('Get file by id: {file_id}')
     def get_by_id(self, file_id: str) -> Response:

@@ -1,6 +1,7 @@
 import allure
 import httpx
 
+from config import settings
 from schemas.error import ValidationErrorResponseSchema, ValidationErrorSchema
 from schemas.file import UploadFileRequestSchema, UploadFileResponseSchema, FileSchema
 from tools.asserts.base import assert_equal
@@ -16,7 +17,7 @@ def assert_create_file_response(request: UploadFileRequestSchema, response: Uplo
     :param response: Ответ API с данными файла.
     :raises AssertionError: Если хотя бы одно поле не совпадает.
     """
-    expected_url = f"http://localhost:8000/static/{request.directory}/{request.filename}"
+    expected_url = f"{settings.http_client.base_url}static/{request.directory}/{request.filename}"
 
     assert_equal(str(response.file.url), expected_url, "url")
     assert_equal(response.file.filename, request.filename, "filename")

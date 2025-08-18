@@ -14,7 +14,7 @@ class CoursesClient(APIClient):
 
     def __init__(self, client: Client):
         super().__init__(client)
-        self.url = '/api/v1/courses'
+        self.url = 'api/v1/courses'
 
     @allure.step('Get all courses')
     def get_user_courses_request(self, query: GetCoursesRequestSchema) -> Response:

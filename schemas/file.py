@@ -1,4 +1,7 @@
 from pydantic import BaseModel, HttpUrl, Field, ConfigDict
+from pydantic import FilePath
+
+from config import settings
 
 
 class FileSchema(BaseModel):
@@ -17,7 +20,7 @@ class UploadFileRequestSchema(BaseModel):
 
     filename: str = Field(default="image.png")
     directory: str = Field(default="image.png")
-    upload_file: str = Field(default="./data/files/image.png")
+    upload_file: FilePath = Field(default=settings.test_data.image_png_file)
 
 class UploadFileResponseSchema(BaseModel):
     """

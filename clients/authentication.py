@@ -13,7 +13,7 @@ class AuthenticationClient(APIClient):
 
     def __init__(self, client: Client):
         super().__init__(client)
-        self.url = "/api/v1/authentication"
+        self.url = "api/v1/authentication"
 
     @allure.step('Refresh authorized token')
     def refresh_request(self, payload: RefreshRequestSchema) -> Response:

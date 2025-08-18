@@ -14,7 +14,7 @@ class UsersClient(APIClient):
 
     def __init__(self, client: Client):
         super().__init__(client)
-        self.url = "/api/v1/users"
+        self.url = "api/v1/users"
 
     @allure.step('Create user')
     def create_request(self, payload: CreateUserRequestSchema) -> Response | RequestError:

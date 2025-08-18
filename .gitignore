@@ -2,3 +2,4 @@
 .idea
 allure-results
 allure-report
+.env

@@ -14,7 +14,7 @@ class ExercisesClient(APIClient):
 
     def __init__(self, client: Client):
         super().__init__(client)
-        self.url = "/api/v1/exercises"
+        self.url = "api/v1/exercises"
 
     @allure.step('Create exercise')
     def create_request(self, payload: CreateExerciseRequestSchema) -> Response | RequestError:
