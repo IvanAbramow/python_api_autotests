@@ -1,7 +1,7 @@
 from httpx import Request, RequestNotRead
 
 
-def create_curl(request: Request):
+def create_curl(request: Request, with_formatting: bool):
     """
     Собирает cURL из HTTP-запроса httpx.
 
@@ -20,4 +20,8 @@ def create_curl(request: Request):
     except RequestNotRead:
         pass
 
-    return " \\\n  ".join(result)
+    if with_formatting:
+        return " \\\n  ".join(result)
+    else:
+        return "".join(result)
+
