@@ -1,0 +1,11 @@
+curl -X 'POST' \
+  'http://localhost:8000/api/v1/exercises' \
+  -H 'host: localhost:8000' \
+  -H 'accept: */*' \
+  -H 'accept-encoding: gzip, deflate' \
+  -H 'connection: keep-alive' \
+  -H 'user-agent: python-httpx/0.28.1' \
+  -H 'authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHBpcmUiOiIyMDI1LTA4LTE5VDE5OjU4OjAxLjIxMzk1OSIsInVzZXJfaWQiOiJkNmEzYTcwOS0zZmIzLTQ3YjItYTcyOS1lMGVkMjE3ZTFlMjEifQ.IK4ArC-9qb5E2CiNXdkK7rFNvzpuroW3gzYa0kpq64g' \
+  -H 'content-length: 429' \
+  -H 'content-type: application/json' \
+  -d '{"title":"Mrs four fine fight good then modern. Particularly tonight certain last more. Camera trip hear season.\nMust tell arm various relate civil day. Not that baby Democrat police use history.","description":"Factor top partner cup weight position company technology. Father seek give begin example use.","courseId":"873e7399-9751-4e5f-bb85-5edd1763db1c","maxScore":95,"minScore":10,"orderIndex":30,"estimatedTime":"3 weeks"}'

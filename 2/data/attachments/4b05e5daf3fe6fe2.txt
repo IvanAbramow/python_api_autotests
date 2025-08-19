@@ -1,0 +1,11 @@
+curl -X 'POST' \
+  'http://localhost:8000/api/v1/exercises' \
+  -H 'host: localhost:8000' \
+  -H 'accept: */*' \
+  -H 'accept-encoding: gzip, deflate' \
+  -H 'connection: keep-alive' \
+  -H 'user-agent: python-httpx/0.28.1' \
+  -H 'authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHBpcmUiOiIyMDI1LTA4LTE5VDE5OjU4OjAxLjc5NTI0NSIsInVzZXJfaWQiOiI2M2M4OGZjNC1kYjJmLTRjNTgtOWUzZS1jMGMwOWU2OTVkZTgifQ._kSSFYCdyE5UAcBMXg_2gw-ACwmBzNTOb9Iherv49CY' \
+  -H 'content-length: 508' \
+  -H 'content-type: application/json' \
+  -d '{"title":"Well support same action month. Seem official series history.\nHotel system seem history left check. Painting visit center field.\nUpon guess relate. Man thus wrong our chance work.","description":"Future herself claim establish care. Inside sure draw recently music tend kitchen development. Leg later wear because.\nFormer step finish occur quickly. Tree imagine body think.","courseId":"da9398cf-df39-493e-a190-38ab043dbbb8","maxScore":65,"minScore":15,"orderIndex":23,"estimatedTime":"3 weeks"}'

@@ -1,0 +1,11 @@
+curl -X 'POST' \
+  'http://localhost:8000/api/v1/courses' \
+  -H 'host: localhost:8000' \
+  -H 'accept: */*' \
+  -H 'accept-encoding: gzip, deflate' \
+  -H 'connection: keep-alive' \
+  -H 'user-agent: python-httpx/0.28.1' \
+  -H 'authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHBpcmUiOiIyMDI1LTA4LTE5VDE5OjU3OjU4Ljg3MDY3NSIsInVzZXJfaWQiOiIwMDFlY2I0Yy0xNjY3LTRmZGYtYWM3Yy1lMjFhYzUyNGIzNDMifQ.Zi8lT-fWbY7vD2ffJPThhV5yuKeSHcdOYK6Uax0SPKs' \
+  -H 'content-length: 363' \
+  -H 'content-type: application/json' \
+  -d '{"title":"Playwright","previewFileId":"c297e49c-d51f-4aef-9786-7e824fbfefbd","createdByUserId":"001ecb4c-1667-4fdf-ac7c-e21ac524b343","description":"Surface street society sport activity hear election. Tax visit professional present.\nBoard president it travel authority space. Already audience great about.","maxScore":89,"minScore":24,"estimatedTime":"4 weeks"}'
