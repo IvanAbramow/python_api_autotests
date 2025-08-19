@@ -34,7 +34,6 @@ class Settings(BaseSettings):
         allure_results_dir = DirectoryPath("./allure-results")
         allure_results_dir.mkdir(exist_ok=True)
 
-        # Передаем allure_results_dir в инициализацию настроек
         return Settings(allure_results_dir=allure_results_dir)
 
 settings = Settings.initialize()

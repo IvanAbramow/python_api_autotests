@@ -43,6 +43,10 @@ jobs:
           
 
       - name: Run tests
+        env:
+          TEST_DATA.IMAGE_PNG_FILE: "data/files/image.png"
+          HTTP_CLIENT.URL: "http://localhost:8000"
+          HTTP_CLIENT.TIMEOUT: 90
         run: |
           pytest -m regression --alluredir=allure-results --numprocesses=2
 
