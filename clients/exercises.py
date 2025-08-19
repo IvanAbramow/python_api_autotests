@@ -5,6 +5,7 @@ from api_client import APIClient
 from clients.private_client_builder import build_private_client, AuthenticationUserSchema
 from schemas.exercises import CreateExerciseRequestSchema, CreateExerciseResponseSchema, UpdateExerciseRequestSchema, \
     GetExercisesRequestSchema
+from tools.routes import APIRoutes
 
 
 class ExercisesClient(APIClient):
@@ -14,7 +15,7 @@ class ExercisesClient(APIClient):
 
     def __init__(self, client: Client):
         super().__init__(client)
-        self.url = "api/v1/exercises"
+        self.url = APIRoutes.EXERCISES
 
     @allure.step('Create exercise')
     def create_request(self, payload: CreateExerciseRequestSchema) -> Response | RequestError:

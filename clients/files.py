@@ -6,6 +6,7 @@ from httpx import Client, Response
 from api_client import APIClient
 from clients.private_client_builder import build_private_client, AuthenticationUserSchema
 from schemas.file import UploadFileRequestSchema, UploadFileResponseSchema
+from tools.routes import APIRoutes
 
 
 class FilesClient(APIClient):
@@ -15,7 +16,7 @@ class FilesClient(APIClient):
 
     def __init__(self, client: Client):
         super().__init__(client)
-        self.url = 'api/v1/files'
+        self.url = APIRoutes.FILES
 
     @allure.step('Upload file')
     def upload_request(self, payload: UploadFileRequestSchema) -> Response:

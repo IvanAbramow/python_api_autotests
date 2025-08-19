@@ -5,6 +5,7 @@ from api_client import APIClient
 from clients.private_client_builder import build_private_client, AuthenticationUserSchema
 from clients.public_client_builder import build_public_client
 from schemas.user import CreateUserRequestSchema, UpdateUserRequestSchema, CreateUserResponseSchema
+from tools.routes import APIRoutes
 
 
 class UsersClient(APIClient):
@@ -14,7 +15,7 @@ class UsersClient(APIClient):
 
     def __init__(self, client: Client):
         super().__init__(client)
-        self.url = "api/v1/users"
+        self.url = APIRoutes.USERS
 
     @allure.step('Create user')
     def create_request(self, payload: CreateUserRequestSchema) -> Response | RequestError:

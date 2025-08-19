@@ -5,6 +5,7 @@ from api_client import APIClient
 from clients.private_client_builder import build_private_client, AuthenticationUserSchema
 from schemas.courses import CreateCourseRequestSchema, UpdateCourseRequestSchema, \
     CreateCourseResponseSchema, GetCoursesRequestSchema
+from tools.routes import APIRoutes
 
 
 class CoursesClient(APIClient):
@@ -14,7 +15,7 @@ class CoursesClient(APIClient):
 
     def __init__(self, client: Client):
         super().__init__(client)
-        self.url = 'api/v1/courses'
+        self.url = APIRoutes.COURSES
 
     @allure.step('Get all courses')
     def get_user_courses_request(self, query: GetCoursesRequestSchema) -> Response:

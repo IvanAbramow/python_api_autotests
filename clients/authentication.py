@@ -4,6 +4,7 @@ from httpx import Client, Response
 from api_client import APIClient
 from clients.public_client_builder import build_public_client
 from schemas.authentication import RefreshRequestSchema, LoginRequestSchema, LoginResponseSchema
+from tools.routes import APIRoutes
 
 
 class AuthenticationClient(APIClient):
@@ -13,7 +14,7 @@ class AuthenticationClient(APIClient):
 
     def __init__(self, client: Client):
         super().__init__(client)
-        self.url = "api/v1/authentication"
+        self.url = APIRoutes.AUTHENTICATION
 
     @allure.step('Refresh authorized token')
     def refresh_request(self, payload: RefreshRequestSchema) -> Response:
