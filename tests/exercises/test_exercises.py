@@ -67,7 +67,7 @@ class TestExercises:
     @allure.tag(AllureTags.POSITIVE)
     @allure.severity(Severity.CRITICAL)
     def test_update_exercise(self, exercise_client: ExercisesClient, function_exercises: ExercisesFixture):
-        request = UpdateExerciseRequestSchema(description="Test")
+        request = UpdateExerciseRequestSchema(description="Test", minScore=10, maxScore=50)
 
         response = exercise_client.update_by_id_request(function_exercises.exercise_id, request)
         response_data = UpdateExerciseResponseSchema.model_validate_json(response.text)
