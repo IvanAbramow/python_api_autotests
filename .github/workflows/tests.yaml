@@ -11,6 +11,18 @@ on:
 jobs:
   run-tests:
     runs-on: ubuntu-latest
+    env:
+      # swagger-coverage-tool
+      SWAGGER_COVERAGE_SERVICES: '[{"key": "python-api-autotests", "name": "Python api autotests", "tags": [ "API" ], "repository": "https://github.com/IvanAbramow/python_api_autotests", "swagger_url": "http://localhost:8000/openapi.json"}]'
+      SWAGGER_COVERAGE_RESULTS_DIR: "./coverage-results"
+      SWAGGER_COVERAGE_HISTORY_FILE: "./coverage-history.json"
+      SWAGGER_COVERAGE_HISTORY_RETENTION_LIMIT: 30
+      SWAGGER_COVERAGE_HTML_REPORT_FILE: "./coverage.html"
+      SWAGGER_COVERAGE_JSON_REPORT_FILE: "./coverage-report.json"
+      # other
+      TEST_DATA.IMAGE_PNG_FILE: "data/files/image.png"
+      HTTP_CLIENT.URL: "http://localhost:8000"
+      HTTP_CLIENT.TIMEOUT: 90
     steps:
       - name: Check out repository
         uses: actions/checkout@v4
@@ -41,35 +53,17 @@ jobs:
           python -m pip install --upgrade pip
           pip install -r requirements.txt
 
-      - name: Run tests
-        env:
-          SWAGGER_COVERAGE_SERVICES: '[
-              {
-                "key": "python-api-autotests",
-                "name": "Python api autotests",
-                "tags": [ "API" ],
-                "repository": "https://github.com/IvanAbramow/python_api_autotests",
-                "swagger_url": "http://localhost:8000/openapi.json"
-              }
-            ]'
-          SWAGGER_COVERAGE_RESULTS_DIR: "./coverage-results"
-          SWAGGER_COVERAGE_HISTORY_FILE: "./coverage-history.json"
-          SWAGGER_COVERAGE_HISTORY_RETENTION_LIMIT: 30
-          SWAGGER_COVERAGE_HTML_REPORT_FILE: "./coverage.html"
-          SWAGGER_COVERAGE_JSON_REPORT_FILE: "./coverage-report.json"
-          TEST_DATA.IMAGE_PNG_FILE: "data/files/image.png"
-          HTTP_CLIENT.URL: "http://localhost:8000"
-          HTTP_CLIENT.TIMEOUT: 90
-        run: |
-          pytest -m regression --alluredir=allure-results --numprocesses=2
-
       - name: Restore Coverage history
         uses: actions/cache/restore@v4
         with:
           path: coverage-history.json
-          key: coverage-history-${{ github.run_id }}
+          key: coverage-history-${{ hashFiles('requirements.txt') }}
           restore-keys: |
-            coverage-history-${{ github.run_id }}
+            coverage-history-
+
+      - name: Run tests
+        run: |
+          pytest -m regression --alluredir=allure-results --numprocesses=2
 
       - name: Generate Coverage report
         run: |
@@ -80,7 +74,7 @@ jobs:
         uses: actions/cache/save@v4
         with:
           path: coverage-history.json
-          key: coverage-history-${{ github.run_id }}
+          key: coverage-history-${{ hashFiles('requirements.txt') }}
 
       - name: Upload Coverage report
         if: always()
