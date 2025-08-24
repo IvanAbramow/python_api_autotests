@@ -1,0 +1,11 @@
+curl -X 'POST' \
+  'http://localhost:8000/api/v1/courses' \
+  -H 'host: localhost:8000' \
+  -H 'accept: */*' \
+  -H 'accept-encoding: gzip, deflate' \
+  -H 'connection: keep-alive' \
+  -H 'user-agent: python-httpx/0.28.1' \
+  -H 'authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHBpcmUiOiIyMDI1LTA4LTI0VDEyOjU1OjI5LjUwMDUwMSIsInVzZXJfaWQiOiJiYmEyNTcyNC0yYTM1LTQ0M2UtYjhjNC1lMzgzMGEwN2Y2MzYifQ.W4YFpcQ_mVSfjS9eFKc33tYZ05sDJIA5pEaIRJjDmNM' \
+  -H 'content-length: 372' \
+  -H 'content-type: application/json' \
+  -d '{"title":"Playwright","previewFileId":"61729322-ebfd-4142-9594-dfda0ec413c4","createdByUserId":"bba25724-2a35-443e-b8c4-e3830a07f636","description":"Mother more house school event against draw. Analysis check big inside interesting. Mother arm of natural born music.\nTalk throughout catch attack. Popular item fire.","maxScore":77,"minScore":14,"estimatedTime":"3 weeks"}'

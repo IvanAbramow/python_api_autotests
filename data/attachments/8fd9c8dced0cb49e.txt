@@ -1,0 +1,11 @@
+curl -X 'POST' \
+  'http://localhost:8000/api/v1/courses' \
+  -H 'host: localhost:8000' \
+  -H 'accept: */*' \
+  -H 'accept-encoding: gzip, deflate' \
+  -H 'connection: keep-alive' \
+  -H 'user-agent: python-httpx/0.28.1' \
+  -H 'authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHBpcmUiOiIyMDI1LTA4LTI0VDEyOjU1OjI3Ljc1Mzc5OCIsInVzZXJfaWQiOiJiNDNiNDExYi0wNGZiLTQ0MGItODNlMy04NDYxYmM0ZTQwMjMifQ.ITrCAvaOCVYFeemNNkcWhfjroPWrjOBw1SWmCuic1UQ' \
+  -H 'content-length: 405' \
+  -H 'content-type: application/json' \
+  -d '{"title":"Playwright","previewFileId":"29d48acc-5f4f-444e-9bf1-cad677ddf03d","createdByUserId":"b43b411b-04fb-440b-83e3-8461bc4e4023","description":"Single wind actually beautiful huge entire. World respond build seem.\nFew beautiful special. Listen rate kid air oil role.\nBig more speak him appear yet. Already wonder role professor whatever life.","maxScore":99,"minScore":25,"estimatedTime":"1 weeks"}'

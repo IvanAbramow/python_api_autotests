@@ -1,0 +1,11 @@
+curl -X 'PATCH' \
+  'http://localhost:8000/api/v1/exercises/e2cabf46-fdc7-4b23-a7d0-55c9156d2927' \
+  -H 'host: localhost:8000' \
+  -H 'accept: */*' \
+  -H 'accept-encoding: gzip, deflate' \
+  -H 'connection: keep-alive' \
+  -H 'user-agent: python-httpx/0.28.1' \
+  -H 'authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHBpcmUiOiIyMDI1LTA4LTI0VDEyOjU1OjMxLjU1MzUwNiIsInVzZXJfaWQiOiJjNjI3YzEyNS0xNTcxLTRjNGEtYjU4YS03YTgwYzkxYmY1NGIifQ.F2z3-dL-gb0iDQW0QHIb-yjYTpFFZ_rea5yN15EcEmA' \
+  -H 'content-length: 50' \
+  -H 'content-type: application/json' \
+  -d '{"description":"Test","maxScore":50,"minScore":10}'
