@@ -1,5 +1,0 @@
-INFO     Logger:event_hooks.py:23 Request: curl -X 'POST''http://localhost:8000/api/v1/users'-H 'host: localhost:8000'-H 'accept: */*'-H 'accept-encoding: gzip, deflate'-H 'connection: keep-alive'-H 'user-agent: python-httpx/0.28.1'-H 'content-length: 121'-H 'content-type: application/json'-d '{"email":"whitealexis@example.net","password":"_oB3w*ZQ_7","lastName":"Short","firstName":"William","middleName":"Jamie"}'
-INFO     Logger:event_hooks.py:32 Response: 200 OK
-INFO     SWAGGER_COVERAGE_TRACKER_STORAGE:storage.py:34 Results directory does not exist, creating: coverage-results
-INFO     Logger:event_hooks.py:23 Request: curl -X 'POST''http://localhost:8000/api/v1/authentication/login'-H 'host: localhost:8000'-H 'accept: */*'-H 'accept-encoding: gzip, deflate'-H 'connection: keep-alive'-H 'user-agent: python-httpx/0.28.1'-H 'content-length: 59'-H 'content-type: application/json'-d '{"email":"whitealexis@example.net","password":"_oB3w*ZQ_7"}'
-INFO     Logger:event_hooks.py:32 Response: 200 OK
