@@ -6,6 +6,7 @@ from clients.private_client_builder import build_private_client, AuthenticationU
 from schemas.courses import CreateCourseRequestSchema, UpdateCourseRequestSchema, \
     CreateCourseResponseSchema, GetCoursesRequestSchema
 from tools.routes import APIRoutes
+from tools.swagger.api_coverage import tracker
 
 
 class CoursesClient(APIClient):
@@ -18,6 +19,7 @@ class CoursesClient(APIClient):
         self.url = APIRoutes.COURSES
 
     @allure.step('Get all courses')
+    @tracker.track_coverage_httpx(APIRoutes.COURSES)
     def get_user_courses_request(self, query: GetCoursesRequestSchema) -> Response:
         """
         Метод получения списка курсов.
@@ -28,6 +30,7 @@ class CoursesClient(APIClient):
         return self.get_request(self.url, params=query.model_dump(by_alias=True))
 
     @allure.step('Get course by id: {course_id}')
+    @tracker.track_coverage_httpx(f"{APIRoutes.COURSES}/{{course_id}}")
     def get_by_id_request(self, course_id: str) -> Response:
         """
         Метод получения курса.
@@ -38,6 +41,7 @@ class CoursesClient(APIClient):
         return self.get_request(f"{self.url}/{course_id}")
 
     @allure.step('Create course')
+    @tracker.track_coverage_httpx(APIRoutes.COURSES)
     def create_request(self, request: CreateCourseRequestSchema) -> Response:
         """
         Метод создания курса.
@@ -49,6 +53,7 @@ class CoursesClient(APIClient):
         return self.post_request(self.url, json=request.model_dump(by_alias=True, exclude_none=True))
 
     @allure.step('Update course')
+    @tracker.track_coverage_httpx(f"{APIRoutes.COURSES}/{{course_id}}")
     def update_request(self, course_id: str, request: UpdateCourseRequestSchema) -> Response:
         """
         Метод обновления курса.
@@ -60,6 +65,7 @@ class CoursesClient(APIClient):
         return self.patch_request(f"{self.url}/{course_id}", json=request.model_dump(by_alias=True, exclude_none=True))
 
     @allure.step('Delete course by id: {course_id}')
+    @tracker.track_coverage_httpx(f"{APIRoutes.COURSES}/{{course_id}}")
     def delete_request(self, course_id: str) -> Response:
         """
         Метод удаления курса.

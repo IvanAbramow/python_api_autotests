@@ -1,6 +1,15 @@
 .venv
 .idea
 __pycache__
+.env
+
+# allure
 allure-results
 allure-report
-.env
+
+# swagger-coverage-tool
+coverage-results
+coverage-history.json
+coverage-report.json
+index.html
+coverage.html

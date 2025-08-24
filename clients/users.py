@@ -6,6 +6,7 @@ from clients.private_client_builder import build_private_client, AuthenticationU
 from clients.public_client_builder import build_public_client
 from schemas.user import CreateUserRequestSchema, UpdateUserRequestSchema, CreateUserResponseSchema
 from tools.routes import APIRoutes
+from tools.swagger.api_coverage import tracker
 
 
 class UsersClient(APIClient):
@@ -18,6 +19,7 @@ class UsersClient(APIClient):
         self.url = APIRoutes.USERS
 
     @allure.step('Create user')
+    @tracker.track_coverage_httpx(APIRoutes.USERS)
     def create_request(self, payload: CreateUserRequestSchema) -> Response | RequestError:
         """
         Метод создает пользователя.
@@ -28,6 +30,7 @@ class UsersClient(APIClient):
         return self.post_request(self.url, json=payload.model_dump(by_alias=True))
 
     @allure.step('Update user')
+    @tracker.track_coverage_httpx(APIRoutes.USERS)
     def update_request(self, payload: UpdateUserRequestSchema) -> Response | RequestError:
         """
         Метод обновления пользователя.
@@ -38,6 +41,7 @@ class UsersClient(APIClient):
         return self.patch_request(self.url, json=payload.model_dump(by_alias=True))
 
     @allure.step('Get user me')
+    @tracker.track_coverage_httpx(f"{APIRoutes.USERS}/me")
     def get_me_request(self) -> Response | RequestError:
         """
         Метод получения пользователя.
@@ -47,6 +51,7 @@ class UsersClient(APIClient):
         return self.get_request(f"{self.url}/me")
 
     @allure.step('Get user by id: {user_id}')
+    @tracker.track_coverage_httpx(f"{APIRoutes.USERS}/{{user_id}}")
     def get_by_id_request(self, user_id: str) -> Response | RequestError:
         """
         Метод получения пользователя по идентификатору.
@@ -58,6 +63,7 @@ class UsersClient(APIClient):
         return self.get_request(f"{self.url}/{user_id}")
 
     @allure.step('Delete user by id: {user_id}')
+    @tracker.track_coverage_httpx(f"{APIRoutes.USERS}/{{user_id}}")
     def delete_by_id_request(self, user_id: str) -> None:
         """
         Метод удаления пользователя по идентификатору.

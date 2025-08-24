@@ -7,6 +7,7 @@ from api_client import APIClient
 from clients.private_client_builder import build_private_client, AuthenticationUserSchema
 from schemas.file import UploadFileRequestSchema, UploadFileResponseSchema
 from tools.routes import APIRoutes
+from tools.swagger.api_coverage import tracker
 
 
 class FilesClient(APIClient):
@@ -19,6 +20,7 @@ class FilesClient(APIClient):
         self.url = APIRoutes.FILES
 
     @allure.step('Upload file')
+    @tracker.track_coverage_httpx(APIRoutes.FILES)
     def upload_request(self, payload: UploadFileRequestSchema) -> Response:
         """
         Метод загрузки файла.
@@ -37,6 +39,7 @@ class FilesClient(APIClient):
         return self.post_request(self.url, data=payload.model_dump(exclude={"upload_file"}), files=files)
 
     @allure.step('Get file by id: {file_id}')
+    @tracker.track_coverage_httpx(f"{APIRoutes.FILES}/{{file_id}}")
     def get_by_id(self, file_id: str) -> Response:
         """
         Метод получения файла по id.
@@ -48,6 +51,7 @@ class FilesClient(APIClient):
         return self.get_request(f"{self.url}/{file_id}")
 
     @allure.step('Delete file by id: {file_id}')
+    @tracker.track_coverage_httpx(f"{APIRoutes.FILES}/{{file_id}}")
     def delete_by_id(self, file_id: str) -> Response:
         """
         Метод удаления файла по id.

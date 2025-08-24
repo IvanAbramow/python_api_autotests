@@ -5,6 +5,7 @@ from api_client import APIClient
 from clients.public_client_builder import build_public_client
 from schemas.authentication import RefreshRequestSchema, LoginRequestSchema, LoginResponseSchema
 from tools.routes import APIRoutes
+from tools.swagger.api_coverage import tracker
 
 
 class AuthenticationClient(APIClient):
@@ -17,6 +18,7 @@ class AuthenticationClient(APIClient):
         self.url = APIRoutes.AUTHENTICATION
 
     @allure.step('Refresh authorized token')
+    @tracker.track_coverage_httpx(f"{APIRoutes.AUTHENTICATION}/refresh")
     def refresh_request(self, payload: RefreshRequestSchema) -> Response:
         """
         Метод обновляет токен авторизации.
@@ -27,6 +29,7 @@ class AuthenticationClient(APIClient):
         return self.post_request(f"{self.url}/refresh", json=payload.model_dump(by_alias=True))
 
     @allure.step('Login request')
+    @tracker.track_coverage_httpx(f"{APIRoutes.AUTHENTICATION}/login")
     def login_request(self, payload: LoginRequestSchema) -> Response:
         """
         Метод выполняет аутентификацию пользователя.
