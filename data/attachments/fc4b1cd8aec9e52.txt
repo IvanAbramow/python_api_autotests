@@ -1,0 +1,11 @@
+curl -X 'POST' \
+  'http://localhost:8000/api/v1/courses' \
+  -H 'host: localhost:8000' \
+  -H 'accept: */*' \
+  -H 'accept-encoding: gzip, deflate' \
+  -H 'connection: keep-alive' \
+  -H 'user-agent: python-httpx/0.28.1' \
+  -H 'authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHBpcmUiOiIyMDI1LTA4LTI0VDEyOjQ3OjMwLjA1MzE5NCIsInVzZXJfaWQiOiI0MGNhODA2NS1lMzg2LTQyYTctYjdiYS1lOTQxMmVhNzAzZWIifQ.ngeNH0iGTq4DqPrBIQKBA-12viQ47Zw8ep2Wp3sLoX0' \
+  -H 'content-length: 343' \
+  -H 'content-type: application/json' \
+  -d '{"title":"Playwright","previewFileId":"ce5e6742-1d69-4b18-9cab-6699017fbc92","createdByUserId":"40ca8065-e386-42a7-b7ba-e9412ea703eb","description":"Others pretty cover executive ask. Cause the collection long wonder.\nLow college student issue weight couple. Fund throughout also field.","maxScore":65,"minScore":19,"estimatedTime":"5 weeks"}'

@@ -1,0 +1,11 @@
+curl -X 'POST' \
+  'http://localhost:8000/api/v1/courses' \
+  -H 'host: localhost:8000' \
+  -H 'accept: */*' \
+  -H 'accept-encoding: gzip, deflate' \
+  -H 'connection: keep-alive' \
+  -H 'user-agent: python-httpx/0.28.1' \
+  -H 'authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHBpcmUiOiIyMDI1LTA4LTI0VDEyOjQ3OjI4LjU3NTk3OCIsInVzZXJfaWQiOiI0MTY1ZGEwZS0yMDQwLTQxM2QtOTkxNi1hMGRmM2EwN2VkNTkifQ.NhS-JUymLxoZvTca2uUS-6xGOXYnAcxK_1yaCF2Txtg' \
+  -H 'content-length: 267' \
+  -H 'content-type: application/json' \
+  -d '{"title":"Playwright","previewFileId":"403283c6-59c1-4e1e-9167-6a5e95c121d3","createdByUserId":"4165da0e-2040-413d-9916-a0df3a07ed59","description":"Oil today buy very wall. Win anything sport firm mission goal.","maxScore":87,"minScore":18,"estimatedTime":"2 weeks"}'
