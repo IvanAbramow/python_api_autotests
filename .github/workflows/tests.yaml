@@ -43,6 +43,20 @@ jobs:
 
       - name: Run tests
         env:
+          SWAGGER_COVERAGE_SERVICES: '[
+              {
+                "key": "python-api-autotests",
+                "name": "Python api autotests",
+                "tags": [ "API" ],
+                "repository": "https://github.com/IvanAbramow/python_api_autotests",
+                "swagger_url": "http://localhost:8000/openapi.json"
+              }
+            ]'
+          SWAGGER_COVERAGE_RESULTS_DIR: "./coverage-results"
+          SWAGGER_COVERAGE_HISTORY_FILE: "./coverage-history.json"
+          SWAGGER_COVERAGE_HISTORY_RETENTION_LIMIT: 30
+          SWAGGER_COVERAGE_HTML_REPORT_FILE: "./coverage.html"
+          SWAGGER_COVERAGE_JSON_REPORT_FILE: "./coverage-report.json"
           TEST_DATA.IMAGE_PNG_FILE: "data/files/image.png"
           HTTP_CLIENT.URL: "http://localhost:8000"
           HTTP_CLIENT.TIMEOUT: 90
