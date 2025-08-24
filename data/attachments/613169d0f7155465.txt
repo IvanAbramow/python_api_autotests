@@ -1,0 +1,11 @@
+curl -X 'POST' \
+  'http://api-server:8000/api/v1/courses' \
+  -H 'host: api-server:8000' \
+  -H 'accept: */*' \
+  -H 'accept-encoding: gzip, deflate' \
+  -H 'connection: keep-alive' \
+  -H 'user-agent: python-httpx/0.28.1' \
+  -H 'authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHBpcmUiOiIyMDI1LTA4LTI0VDE1OjQ0OjQ5LjMwODYwNSIsInVzZXJfaWQiOiI4OGZiZTRhYS04NjZhLTRiYmItODEwZi0yZTEzMjJkYTZhNTcifQ.hqyqxl44KsyEO2ZwH2DBJrpnaXMqiZJzFBZgtUrEr0o' \
+  -H 'content-length: 315' \
+  -H 'content-type: application/json' \
+  -d '{"title":"Playwright","previewFileId":"56f1eacc-1403-489a-87a2-c4fcf91d18a4","createdByUserId":"88fbe4aa-866a-4bbb-810f-2e1322da6a57","description":"So popular go minute. Experience pass lose large off some. Scientist practice address interest walk establish.","maxScore":62,"minScore":29,"estimatedTime":"4 weeks"}'
