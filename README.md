@@ -66,6 +66,19 @@ pytest -m "regression" --alluredir=./allure-results
 
 This will execute all tests in the project and display the results in the terminal.
 
+### Running tests on docker
+To run tests in Docker use this command
+
+for local run:
+```bash
+docker compose -f docker-compose.local.yaml up --build
+```
+
+for only in docker run:
+```bash
+docker compose -f docker-compose.yaml up --build --abort-on-container-exit
+```
+
 ### Viewing the Allure Report
 
 After the tests have been executed, you can generate and view the Allure report with:

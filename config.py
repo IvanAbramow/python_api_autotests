@@ -22,7 +22,7 @@ class Settings(BaseSettings):
         extra='allow',
         env_file=".env",
         env_file_encoding="utf-8",
-        env_nested_delimiter=".",
+        env_nested_delimiter="__",
     )
 
     test_data: TestDataConfig

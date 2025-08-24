@@ -8,8 +8,5 @@ allure-results
 allure-report
 
 # swagger-coverage-tool
+coverage
 coverage-results
-coverage-history.json
-coverage-report.json
-index.html
-coverage.html
