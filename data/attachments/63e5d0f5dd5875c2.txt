@@ -1,0 +1,11 @@
+curl -X 'POST' \
+  'http://localhost:8000/api/v1/exercises' \
+  -H 'host: localhost:8000' \
+  -H 'accept: */*' \
+  -H 'accept-encoding: gzip, deflate' \
+  -H 'connection: keep-alive' \
+  -H 'user-agent: python-httpx/0.28.1' \
+  -H 'authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHBpcmUiOiIyMDI1LTA4LTI0VDEzOjA0OjQ3Ljg5NTgwMyIsInVzZXJfaWQiOiI1MzJiNWI2Yi1hZTBiLTQ0OTMtOGQ4Ny03OGU2YWRlZDQ0NTMifQ.R8kPJ5PH6vPW1x8Opl--SPzNXqrJakIvhswLXusryo0' \
+  -H 'content-length: 294' \
+  -H 'content-type: application/json' \
+  -d '{"title":"Test","description":"Training food parent interview decision number. Quite although kind past issue truth occur. Last world traditional attack Democrat list site.","courseId":"2d9493b9-f37e-41d8-9b3c-c6a4fedd77b0","maxScore":61,"minScore":15,"orderIndex":25,"estimatedTime":"3 weeks"}'

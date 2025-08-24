@@ -1,0 +1,11 @@
+curl -X 'POST' \
+  'http://localhost:8000/api/v1/exercises' \
+  -H 'host: localhost:8000' \
+  -H 'accept: */*' \
+  -H 'accept-encoding: gzip, deflate' \
+  -H 'connection: keep-alive' \
+  -H 'user-agent: python-httpx/0.28.1' \
+  -H 'authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHBpcmUiOiIyMDI1LTA4LTI0VDEzOjA0OjQ5LjA1MDUxNyIsInVzZXJfaWQiOiJiZGI0N2Y3NS1lMGY3LTQ0YjItODY0Ni05ZTlkOTQyYzY0MjUifQ.oioNrdlr3gJYXP6-NG2OMXoBy-VROdCgchMke1w8UYc' \
+  -H 'content-length: 489' \
+  -H 'content-type: application/json' \
+  -d '{"title":"Factor read tonight line political part. Air because subject break. Run leader society main its.\nBehavior box step money within page information. Guy hit common heavy green dark.","description":"Cost since under budget first positive seek. Business note it section street should party.\nRaise street attention economy doctor. Develop represent Congress he.","courseId":"efd202c5-a6ef-4787-b74a-21e2ce427778","maxScore":64,"minScore":16,"orderIndex":20,"estimatedTime":"5 weeks"}'

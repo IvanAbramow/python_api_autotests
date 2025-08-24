@@ -1,0 +1,11 @@
+curl -X 'POST' \
+  'http://localhost:8000/api/v1/exercises' \
+  -H 'host: localhost:8000' \
+  -H 'accept: */*' \
+  -H 'accept-encoding: gzip, deflate' \
+  -H 'connection: keep-alive' \
+  -H 'user-agent: python-httpx/0.28.1' \
+  -H 'authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHBpcmUiOiIyMDI1LTA4LTI0VDEzOjA0OjQ3LjYyMzQ4OSIsInVzZXJfaWQiOiJmOWUwZWQ5OC1iNjZkLTQwODctYWU3Yy02YWQ5YWFlODkwYjgifQ.H5nKzV5NAxBkxvaPa5eTzBjZH0pptwjdyNqekkrPPDs' \
+  -H 'content-length: 390' \
+  -H 'content-type: application/json' \
+  -d '{"title":"Congress thousand music education hair trip sing onto. Soldier happen site clearly.","description":"Increase usually reveal stage field morning police. Miss measure center staff American.\nAgo trip focus power property least. Everybody all remember daughter.","courseId":"4eaf49e3-2ad1-401e-a0ac-7e9555634c8e","maxScore":53,"minScore":27,"orderIndex":15,"estimatedTime":"2 weeks"}'

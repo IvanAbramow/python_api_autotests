@@ -1,0 +1,11 @@
+curl -X 'POST' \
+  'http://localhost:8000/api/v1/exercises' \
+  -H 'host: localhost:8000' \
+  -H 'accept: */*' \
+  -H 'accept-encoding: gzip, deflate' \
+  -H 'connection: keep-alive' \
+  -H 'user-agent: python-httpx/0.28.1' \
+  -H 'authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHBpcmUiOiIyMDI1LTA4LTI0VDEzOjA0OjQ4Ljc3NzkwOCIsInVzZXJfaWQiOiI4N2Q4YmQ4Mi01MzgxLTRmMTYtYWZkZC1mOGYzMDJjNDhiMWMifQ.peaNUMjJIRS9xu97vi4Er9ZMrrKPlgL0Z5lR6YpdPR0' \
+  -H 'content-length: 489' \
+  -H 'content-type: application/json' \
+  -d '{"title":"New cell style leg. Hope dog turn leader.\nDifferent hear difficult although action home on. Subject east group account somebody debate second American.","description":"Interesting debate design else site large state item. Fall wife court me money. We turn he collection interview top better officer. Term public all including western charge science region.","courseId":"00e0388c-5231-46d3-b249-5d124bdf80cd","maxScore":52,"minScore":12,"orderIndex":15,"estimatedTime":"1 weeks"}'
