@@ -1,7 +1,7 @@
 version: '3.8'
 
 services:
-  server:
+  api-server:
     build:
       context: .
       dockerfile: Dockerfile-server
@@ -14,15 +14,15 @@ services:
       context: .
       dockerfile: Dockerfile-tests
     depends_on:
-      server:
+      api-server:
         condition: service_started
     volumes:
       - ./allure-results:/app/allure-results
       - ./coverage:/app/coverage
     env_file: ./.env
     environment:
-      HTTP_CLIENT__URL: "http://server:8000"
-      SWAGGER_COVERAGE_SERVICES: '[{"key": "python-api-autotests", "name": "Python api autotests", "tags": [ "API" ], "repository": "https://github.com/IvanAbramow/python_api_autotests", "swagger_url": "http://server:8000/openapi.json"}]'
+      HTTP_CLIENT__URL: "http://api-server:8000"
+      SWAGGER_COVERAGE_SERVICES: '[{"key": "python-api-autotests", "name": "Python api autotests", "tags": [ "API" ], "repository": "https://github.com/IvanAbramow/python_api_autotests", "swagger_url": "http://api-server:8000/openapi.json"}]'
     command: >
       sh -c "
       pytest -m regression --alluredir=allure-results --numprocesses=2 ;

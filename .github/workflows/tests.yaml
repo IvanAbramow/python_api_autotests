@@ -12,80 +12,35 @@ jobs:
   run-tests:
     runs-on: ubuntu-latest
     env:
-      # swagger-coverage-tool
-      SWAGGER_COVERAGE_SERVICES: '[{"key": "python-api-autotests", "name": "Python api autotests", "tags": [ "API" ], "repository": "https://github.com/IvanAbramow/python_api_autotests", "swagger_url": "http://localhost:8000/openapi.json"}]'
-      SWAGGER_COVERAGE_RESULTS_DIR: "./coverage-results"
-      SWAGGER_COVERAGE_HISTORY_FILE: "./coverage-history.json"
+      # http client
+      HTTP_CLIENT__TIMEOUT: 90
+      # data
+      TEST_DATA__IMAGE_PNG_FILE: "data/files/image.png"
+      # allure
+      ALLURE_RESULTS_DIR: "allure-results"
+      # swagger coverage
       SWAGGER_COVERAGE_HISTORY_RETENTION_LIMIT: 30
-      SWAGGER_COVERAGE_HTML_REPORT_FILE: "./coverage.html"
-      SWAGGER_COVERAGE_JSON_REPORT_FILE: "./coverage-report.json"
-      # other
-      TEST_DATA.IMAGE_PNG_FILE: "data/files/image.png"
-      HTTP_CLIENT.URL: "http://localhost:8000"
-      HTTP_CLIENT.TIMEOUT: 90
+      SWAGGER_COVERAGE_RESULTS_DIR: "./coverage/results"
+      SWAGGER_COVERAGE_HISTORY_FILE: "./coverage/history.json"
+      SWAGGER_COVERAGE_HTML_REPORT_FILE: "./coverage/index.html"
+      SWAGGER_COVERAGE_JSON_REPORT_FILE: "./coverage/report.json"
     steps:
       - name: Check out repository
         uses: actions/checkout@v4
 
-      - name: Set up python
-        uses: actions/setup-python@v5
-        with:
-          python-version: '3.12'
-
-      - name: Clone test server repository
-        run: git clone https://github.com/Nikita-Filonov/qa-automation-engineer-api-course.git
-
-      - name: Install server dependencies
-        run: pip install -r qa-automation-engineer-api-course/requirements.txt
-
-      - name: Start server
-        env:
-          APP_HOST: "http://localhost:8000"
-          DATABASE_URL: "sqlite+aiosqlite:///./local.db"
-          JWT_ALGORITHM: "HS256"
-          JWT_SECRET_KEY: "qa-automation-engineer-api-course-secret-key"
-          JWT_ACCESS_TOKEN_EXPIRE: 1800
-          JWT_REFRESH_TOKEN_EXPIRE: 5184000
-        run: uvicorn main:app --host 0.0.0.0 --port 8000 --app-dir ./qa-automation-engineer-api-course &
-
-      - name: Install dependencies
-        run: |
-          python -m pip install --upgrade pip
-          pip install -r requirements.txt
-
-      - name: Restore Coverage history
-        uses: actions/cache/restore@v4
-        with:
-          path: coverage-history.json
-          key: coverage-history-${{ hashFiles('requirements.txt') }}
-          restore-keys: |
-            coverage-history-
-
-      - name: Run tests
-        run: |
-          pytest -m regression --alluredir=allure-results --numprocesses=2
-
-      - name: Generate Coverage report
-        run: |
-          swagger-coverage-tool save-report
-
-      - name: Cache Coverage history
-        if: always()
-        uses: actions/cache/save@v4
-        with:
-          path: coverage-history.json
-          key: coverage-history-${{ hashFiles('requirements.txt') }}
+      - name: Start services and run tests
+        run: docker-compose up --build --abort-on-container-exit
 
       - name: Upload Coverage report
         if: always()
         uses: actions/upload-artifact@v4
         with:
           name: coverage-report
-          path: coverage.html
+          path: coverage/index.html
 
       - name: Upload Allure results artifact
-        uses: actions/upload-artifact@v4
         if: always()
+        uses: actions/upload-artifact@v4
         with:
           name: allure-results
           path: allure-results
@@ -109,7 +64,7 @@ jobs:
         uses: actions/download-artifact@v4
         with:
           name: coverage-report
-          path: coverage.html
+          path: coverage/index.html
 
       - name: Generate Allure Report
         uses: simple-elf/allure-report-action@v1.12
